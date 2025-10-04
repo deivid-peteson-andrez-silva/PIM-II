@@ -31,7 +31,7 @@ class professor:
                 # Caso o JSON esteja vazio ou mal formatado, criamos lista vazia
                 except json.JSONDecodeError:
                     self.professor_lista = []
-        
+         
         else:
             # Se o arquivo não existir, iniciamos com uma lista vazia
             self.professor_lista = []
