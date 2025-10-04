@@ -4,7 +4,7 @@ import bcrypt    # Biblioteca para criptografar senhas de forma segura
 
 
 # Definição da classe 'professor'
-class professor:
+class Professor:
     def __init__(self):
         """
         Construtor da classe professor.
@@ -34,7 +34,7 @@ class professor:
          
         else:
             # Se o arquivo não existir, iniciamos com uma lista vazia
-            self.professor_lista = []
+            self.professor_lista = [] 
     
 
     def cadastro(self, profe_nome, profe_cpf, profe_contato, profe_diciplina, profe_senha):
