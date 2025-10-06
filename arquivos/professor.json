@@ -26,5 +26,19 @@
         "professor_contato": "ruere",
         "professor_diciplina": "sresresr",
         "professor_senha": "$2b$12$BC7lP9Lxvd8E2PJu9zc.GuG.WxP1GZ3GqskA0gUyb.Ze0kGdTdh.u"
+    },
+    {
+        "professor_nome": "deivd",
+        "professor_cpf": "123",
+        "professor_contato": "123",
+        "professor_diciplina": "123",
+        "professor_senha": "$2b$12$kP7O4XCXLCJfwCxzxf.5Cu/AMH3k933HQ4yWBxLqlxvvZbFexFcby"
+    },
+    {
+        "professor_nome": "deivid",
+        "professor_cpf": "24237946819",
+        "professor_contato": "999",
+        "professor_diciplina": "ads",
+        "professor_senha": "$2b$12$ZaPyx3Q9JsOQbfAoGcqetOYc9sIZEsNnAO1iK7XXaV0fn8GoOr7WC"
     }
 ]

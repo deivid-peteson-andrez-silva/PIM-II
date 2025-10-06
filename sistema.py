@@ -76,7 +76,17 @@ class Professor:
             return None
         else:
             if bcrypt.checkpw(profe_senha.encode(), cpf_v['professor_senha'].encode()):
-                return profe_cpf
+                return professor
             else:
                 messagebox.showinfo('aaaaaaa',f" senha invalida")
                 return None
+            
+    def alterar(self,logado_profe,alteracao):
+
+
+        
+        
+        novo_nome = alteracao
+        logado_profe['professor_nome'] = novo_nome
+        with open('arquivos/professor.json', 'w') as arquivo:
+            json.dump(self.professor_lista, arquivo, indent=4)

@@ -77,10 +77,11 @@ def tela_logar_professor():
         logado_profe =   professor.logar(profe_cpf,profe_senha)
     
         if logado_profe:
-            messagebox.showinfo("Sucesso", f" login ta indo feito!")
-    
-        log_senha.delete(0, "end")
-        Log_cpf.delete(0, "end")    
+            log_senha.delete(0, "end")
+            Log_cpf.delete(0, "end")    
+            logar_professor.destroy()
+            tela_professor_1(logado_profe)
+            
     
     btn_logar_prof =ctk.CTkButton(logar_professor, text="logar", command=profe_login)
     btn_logar_prof.pack(pady=15)
@@ -90,5 +91,36 @@ def tela_logar_professor():
 
 
 
-tela_profe_cadastro
+def tela_professor_1(logado_profe):
+    
+    tela_professor_1 =ctk.CTk()
+
+    tela_professor_1.geometry('900x400')
+    texto = ctk.CTkLabel(tela_professor_1, text=f"Professor {logado_profe}", font=("Arial", 10))  
+    texto.pack(pady=50)  # centraliza com espaço de 50px em cima/baixo
+
+    nome_al =ctk.CTkEntry(tela_professor_1, placeholder_text= 'nome')
+    nome_al.pack(padx=10, pady=10)
+    var_nome = ctk.BooleanVar()
+    nome_alA =ctk.CTkCheckBox(tela_professor_1,   variable=var_nome)
+    nome_alA.pack(padx=10, pady=10)
+
+    
+    def alterar():
+        
+        nome = nome_al.get()
+        logado_profe_al = logado_profe
+        professor.alterar(logado_profe_al, nome)
+    
+    
+    
+    btn_logar_prof =ctk.CTkButton(tela_professor_1, text="logar", command=alterar)
+    btn_logar_prof.pack(pady=15)
+
+
+
+    tela_professor_1.mainloop()
+
+
+
 tela_logar_professor()
