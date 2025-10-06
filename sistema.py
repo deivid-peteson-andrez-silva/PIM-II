@@ -1,7 +1,7 @@
 import json      # Para trabalhar com arquivos JSON (leitura e escrita de dados estruturados)
 import os        # Para verificar e manipular caminhos e pastas do sistema operacional
 import bcrypt    # Biblioteca para criptografar senhas de forma segura
-
+from tkinter import messagebox 
 
 # Definição da classe 'professor'
 class Professor:
@@ -62,3 +62,21 @@ class Professor:
             # json.dump salva no arquivo em formato JSON
             # indent=4 serve para deixar o arquivo legível (com espaçamento)
             json.dump(self.professor_lista, arquivo, indent=4)
+
+    def logar(self, profe_cpf, profe_senha):
+        cpf_v = None
+        prof_logar = profe_cpf
+        for professor in self.professor_lista:
+            if professor['professor_cpf'] == prof_logar:
+                cpf_v = professor
+                break
+        
+        if not cpf_v:
+            messagebox.showinfo('aaaaaa',f"Professor com cpf {prof_logar} nao encontrado")
+            return None
+        else:
+            if bcrypt.checkpw(profe_senha.encode(), cpf_v['professor_senha'].encode()):
+                return profe_cpf
+            else:
+                messagebox.showinfo('aaaaaaa',f" senha invalida")
+                return None
