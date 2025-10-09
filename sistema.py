@@ -72,21 +72,41 @@ class Professor:
                 break
         
         if not cpf_v:
-            messagebox.showinfo('aaaaaa',f"Professor com cpf {prof_logar} nao encontrado")
-            return None
+            return 1
         else:
             if bcrypt.checkpw(profe_senha.encode(), cpf_v['professor_senha'].encode()):
                 return professor
             else:
-                messagebox.showinfo('aaaaaaa',f" senha invalida")
-                return None
+                return 2 
             
     def alterar(self,logado_profe,alteracao):
-
-
-        
         
         novo_nome = alteracao
         logado_profe['professor_nome'] = novo_nome
         with open('arquivos/professor.json', 'w') as arquivo:
             json.dump(self.professor_lista, arquivo, indent=4)
+
+class Adm :
+    def __init__(self):
+        os.makedirs("arquivos", exist_ok=True) 
+        if os.path.exists('arquivos/adm.json'):
+            with open('arquivos/adm.json', 'r') as arquivo:
+                try:
+                    self.adm_dados = json.load(arquivo)
+                    if not isinstance(self.adm_dados, dict):
+                        self.adm_dados = {"login_adm":"adm123","senha_adm":"adm123",'cpf_professor':[]}
+                except json.JSONDecodeError:
+                    self.adm_dados = {"login_adm":"adm123","senha_adm":"adm123","cpf_professor":[]}
+        else:
+            self.adm_dados = {"login_adm":"adm123","senha_adm":"adm123",'cpf_professor':[]}
+        
+
+
+    def cadastrar_professor_cpf(self,cpf_professor):
+        
+        self.adm_dados['cpf_professor'].append(cpf_professor)
+ 
+        with open('arquivos/adm.json', 'w') as arquivo:
+            json.dump(self.adm_dados,arquivo,indent=4)
+      
+      

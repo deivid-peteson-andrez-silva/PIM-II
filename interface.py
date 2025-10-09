@@ -2,6 +2,8 @@ from sistema import Professor
 professor = Professor()  
 from tkinter import messagebox 
 import customtkinter as ctk
+from sistema import Adm
+adm = Adm()
 
 ctk.set_appearance_mode('dark')
 ctk.set_default_color_theme("dark-blue")
@@ -76,7 +78,14 @@ def tela_logar_professor():
     
         logado_profe =   professor.logar(profe_cpf,profe_senha)
     
-        if logado_profe:
+        if logado_profe == 1 :
+            messagebox.showinfo('aaaaaa',f"Professor com cpf {profe_cpf} nao encontrado")
+
+        elif logado_profe == 2:
+            messagebox.showinfo('aaaaaaa',f" senha invalida")
+        
+        
+        elif isinstance(logado_profe, dict):
             log_senha.delete(0, "end")
             Log_cpf.delete(0, "end")    
             logar_professor.destroy()
@@ -123,4 +132,29 @@ def tela_professor_1(logado_profe):
 
 
 
-tela_logar_professor()
+def tela_adm():
+    tela_adm = ctk.CTk() 
+    tela_adm.geometry('500x400')
+
+    cpf =ctk.CTkEntry(tela_adm, placeholder_text= 'cpf professor')
+    cpf.pack(padx=10, pady=10)
+
+
+    def cadastro_cpf_prof():
+        profe_cpf = cpf.get()
+        adm.cadastrar_professor_cpf(profe_cpf)
+
+
+
+
+    btn_cpf_prof =ctk.CTkButton(tela_adm, text="cpf", command=cadastro_cpf_prof)
+    btn_cpf_prof.pack(pady=15)
+
+
+
+    tela_adm.mainloop()
+
+
+#tela_profe_cadastro()
+#tela_logar_professor()
+tela_adm()

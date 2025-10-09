@@ -40,5 +40,12 @@
         "professor_contato": "999",
         "professor_diciplina": "ads",
         "professor_senha": "$2b$12$ZaPyx3Q9JsOQbfAoGcqetOYc9sIZEsNnAO1iK7XXaV0fn8GoOr7WC"
+    },
+    {
+        "professor_nome": "andrez",
+        "professor_cpf": "999",
+        "professor_contato": "999",
+        "professor_diciplina": "aaa",
+        "professor_senha": "$2b$12$UpS8U.lOZzwxtBQV5SJUOOfwDHGSszy8URuSakAl8W/4aR5aXEWsi"
     }
 ]
