@@ -1,51 +1,9 @@
 [
     {
-        "professor_nome": "deivid",
-        "professor_cpf": "21312",
-        "professor_contato": "asdld",
-        "professor_diciplina": "dsal",
-        "professor_senha": "$2b$12$RRt4zmqPrmm46cOfYjJa7OjKDtwICVexVywa0xWqmuQllIs5qYrOK"
-    },
-    {
-        "professor_nome": "ddada",
-        "professor_cpf": "213",
-        "professor_contato": "dsfs",
-        "professor_diciplina": "342",
-        "professor_senha": "$2b$12$DOQoAtVI7PxWrDyVnhf09OXD3uYlGQrODhdNjQeo7ap.i8Ir1YzKm"
-    },
-    {
-        "professor_nome": "dedede",
-        "professor_cpf": "23423423",
-        "professor_contato": "11 93423423",
-        "professor_diciplina": "sdfsdfsdf",
-        "professor_senha": "$2b$12$8WE6vfjr4wDdOP4AJWhAQ.CSlLjVKE6AuO8SmyDO8FryFDcQwakZu"
-    },
-    {
-        "professor_nome": "wrqwrq",
-        "professor_cpf": "34243",
-        "professor_contato": "ruere",
-        "professor_diciplina": "sresresr",
-        "professor_senha": "$2b$12$BC7lP9Lxvd8E2PJu9zc.GuG.WxP1GZ3GqskA0gUyb.Ze0kGdTdh.u"
-    },
-    {
-        "professor_nome": "deivd",
-        "professor_cpf": "123",
-        "professor_contato": "123",
-        "professor_diciplina": "123",
-        "professor_senha": "$2b$12$kP7O4XCXLCJfwCxzxf.5Cu/AMH3k933HQ4yWBxLqlxvvZbFexFcby"
-    },
-    {
-        "professor_nome": "deivid",
-        "professor_cpf": "24237946819",
-        "professor_contato": "999",
-        "professor_diciplina": "ads",
-        "professor_senha": "$2b$12$ZaPyx3Q9JsOQbfAoGcqetOYc9sIZEsNnAO1iK7XXaV0fn8GoOr7WC"
-    },
-    {
-        "professor_nome": "andrez",
-        "professor_cpf": "999",
-        "professor_contato": "999",
-        "professor_diciplina": "aaa",
-        "professor_senha": "$2b$12$UpS8U.lOZzwxtBQV5SJUOOfwDHGSszy8URuSakAl8W/4aR5aXEWsi"
+        "professor_nome": "deivid amdrez",
+        "professor_cpf": "123456",
+        "professor_contato": "9999",
+        "professor_diciplina": "aaaaaaaaaa",
+        "professor_senha": "$2b$12$sHmRbxFERPSQG.i70eNeZOVhkNM.hU/EgS8W2.ZbSFXet1h0ST6re"
     }
 ]
