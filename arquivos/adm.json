@@ -1,0 +1,10 @@
+{
+    "login_adm": "adm123",
+    "senha_adm": "adm123",
+    "cpf_professor": [
+        {
+            "nome": "andrez",
+            "cpf": "123456"
+        }
+    ]
+}
