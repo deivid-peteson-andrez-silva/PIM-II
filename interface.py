@@ -9,20 +9,11 @@ aluno = Aluno()
 ctk.set_appearance_mode('dark')
 ctk.set_default_color_theme("dark-blue")
 
-
-
-
-
-
-def tela_profe_cadastro(tela_ant):
-    
-    
+def tela_profe_cadastro(tela_ant):    
     tela_ant.destroy()
-    
     cadastro =ctk.CTk()
-
     cadastro.geometry('500x400')
-    
+
     txt = ctk.CTkLabel(cadastro,text='insira seus dados')
     txt.pack(padx=10, pady=10 )
     nome =ctk.CTkEntry(cadastro, placeholder_text= 'nome')
@@ -46,18 +37,14 @@ def tela_profe_cadastro(tela_ant):
         profe_senha =senha.get()
         if not (profe_nome and profe_cpf and profe_contato and profe_diciplina and profe_senha):
             messagebox.showwarning("Atenção", "Preencha todos os campos!")
-            return
-        
-        
+            return        
         
         ve_profe =   professor.cadastro(profe_nome,profe_cpf,profe_contato,profe_diciplina,profe_senha)
        
         if ve_profe == 3:
-            messagebox.showinfo('aaaaaaa',f" professor nao cadastrado por um")
+            messagebox.showinfo('aaaaaaa',f" professor nao cadastrado por um  ADM")
         else: 
-       
             messagebox.showinfo("Sucesso", f"Professor {profe_nome} cadastrado!")
-
             tela_logar_professor(cadastro)
        
         nome.delete(0, "end")
@@ -76,18 +63,13 @@ def tela_logar_professor(tela_ant):
     
     tela_ant.destroy()
     logar_professor =ctk.CTk()
-
     logar_professor.geometry('500x400')
     
     Log_cpf =ctk.CTkEntry(logar_professor, placeholder_text= 'cpf')
     Log_cpf.pack(padx=10, pady=10)
     log_senha =ctk.CTkEntry(logar_professor, placeholder_text= 'senha')
     log_senha.pack(padx=10, pady=10)
-
-
-
     def profe_login():
-
         profe_senha = log_senha.get()
         profe_cpf = Log_cpf.get()
 
@@ -103,7 +85,6 @@ def tela_logar_professor(tela_ant):
 
         elif logado_profe == 2:
             messagebox.showinfo('aaaaaaa',f" senha invalida")
-        
         
         elif isinstance(logado_profe, dict):
             log_senha.delete(0, "end")
@@ -121,21 +102,15 @@ def tela_logar_professor(tela_ant):
     tela_index.pack(pady=15)
     logar_professor.mainloop()
 
-
-
-
 def tela_professor_1(logado_profe):
     
     tela_professor_1 =ctk.CTk()
-
     tela_professor_1.geometry('900x400')
+    
     texto = ctk.CTkLabel(tela_professor_1, text=f"Professor {logado_profe}", font=("Arial", 10))  
     texto.pack(pady=50) 
-
     nome_al =ctk.CTkEntry(tela_professor_1, placeholder_text= 'nome')
     nome_al.pack(padx=10, pady=10)
-
-
     
     def alterar():
         
@@ -143,14 +118,10 @@ def tela_professor_1(logado_profe):
         logado_profe_al = logado_profe
         professor.alterar(logado_profe_al, nome)
     
-    
-    
     btn_logar_prof =ctk.CTkButton(tela_professor_1, text="alterar", command=alterar)
     btn_logar_prof.pack(pady=15)
     tela_index =ctk.CTkButton(tela_professor_1, text="index", command=lambda: index(tela_professor_1))
     tela_index.pack(pady=15)
-
-
     tela_professor_1.mainloop()
 
 
@@ -163,8 +134,6 @@ def tela_adm(tela_ant):
 
     nome =ctk.CTkEntry(tela_adm, placeholder_text= 'nome professor')
     nome.pack(padx=10, pady=10)
-
-
     cpf =ctk.CTkEntry(tela_adm, placeholder_text= 'cpf professor')
     cpf.pack(padx=10, pady=10)
 
@@ -173,11 +142,7 @@ def tela_adm(tela_ant):
         nome_profe = nome.get()
         profe_cpf = cpf.get()
         
-        
         adm.cadastrar_professor_cpf(nome_profe,profe_cpf)
-
- 
-
 
     btn_cpf_prof =ctk.CTkButton(tela_adm, text="cpf", command=cadastro_cpf_prof)
     btn_cpf_prof.pack(pady=15)
@@ -189,8 +154,7 @@ def tela_adm(tela_ant):
 
 
 def tela_aluno_cadastro(tela_ant):
-    tela_ant.destroy()
-    
+    tela_ant.destroy()    
     tela_aluno_ca = ctk.CTk() 
     tela_aluno_ca.geometry('500x400')
     
@@ -215,13 +179,10 @@ def tela_aluno_cadastro(tela_ant):
         aluno_contato = contato.get()
         data_nascimento = nascimento.get()
         aluno_endereco = endereco.get()
-        #usar nome e cpf como "email"
 
         if not (aluno_nome and  aluno_cpf  and aluno_contato and data_nascimento):
             messagebox.showwarning("Atenção", "Preencha todos os campos!")
             return
-        
-        
         
         ve_aluno =   aluno.cadastrar_aluno(aluno_nome,aluno_cpf,data_nascimento,aluno_endereco,aluno_contato)
        
