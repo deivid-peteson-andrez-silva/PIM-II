@@ -1,9 +1,16 @@
 [
     {
-        "professor_nome": "deivid amdrez",
+        "professor_nome": "deivid",
         "professor_cpf": "123456",
-        "professor_contato": "9999",
-        "professor_diciplina": "aaaaaaaaaa",
-        "professor_senha": "$2b$12$sHmRbxFERPSQG.i70eNeZOVhkNM.hU/EgS8W2.ZbSFXet1h0ST6re"
+        "professor_contato": "aaa",
+        "professor_diciplina": "aaa",
+        "professor_senha": "$2b$12$gmYAKhjwrsQMKDiXIs8yQ.bhiLB5/qd/TRHGMU2kwvplZBYv8gCa2"
+    },
+    {
+        "professor_nome": "andrez",
+        "professor_cpf": "999",
+        "professor_contato": "aaa",
+        "professor_diciplina": "aaa",
+        "professor_senha": "$2b$12$hNpcdzkdTIQ6ejkIY71QP.ZrpbdBDUd.fVilZ1pQ4f6jvP1VSge/W"
     }
 ]

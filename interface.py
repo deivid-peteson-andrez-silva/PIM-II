@@ -52,7 +52,7 @@ def tela_profe_cadastro(tela_ant):
         ve_profe =   professor.cadastro(profe_nome,profe_cpf,profe_contato,profe_diciplina,profe_senha)
        
         if ve_profe == 3:
-            messagebox.showinfo('aaaaaaa',f" professor nao cadastrado por um")
+            messagebox.showinfo('aaaaaaa',f" professor nao cadastrado por um adm ")
         else: 
        
             messagebox.showinfo("Sucesso", f"Professor {profe_nome} cadastrado!")
@@ -80,7 +80,7 @@ def tela_logar_professor(tela_ant):
     
     Log_cpf =ctk.CTkEntry(logar_professor, placeholder_text= 'cpf')
     Log_cpf.pack(padx=10, pady=10)
-    log_senha =ctk.CTkEntry(logar_professor, placeholder_text= 'senha')
+    log_senha =ctk.CTkEntry(logar_professor, placeholder_text= 'senha',   show='*')
     log_senha.pack(padx=10, pady=10)
 
 
@@ -94,7 +94,8 @@ def tela_logar_professor(tela_ant):
         if not ( profe_cpf and profe_senha):
             messagebox.showwarning("Atenção", "Preencha todos os campos!")
             return
-    
+
+        
         logado_profe =   professor.logar(profe_cpf,profe_senha)
     
         if logado_profe == 1 :
@@ -102,7 +103,8 @@ def tela_logar_professor(tela_ant):
 
         elif logado_profe == 2:
             messagebox.showinfo('aaaaaaa',f" senha invalida")
-        
+        elif  logado_profe == 3:
+            tela_adm()
         
         elif isinstance(logado_profe, dict):
             log_senha.delete(0, "end")
