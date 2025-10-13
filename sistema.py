@@ -124,3 +124,45 @@ class Adm :
         
         return False
     
+
+class Aluno:
+    def __init__(self):
+
+        os.makedirs("arquivos", exist_ok=True)
+        
+
+        if os.path.exists('arquivos/alunos.json'):
+    
+            with open('arquivos/alunos.json', 'r') as arquivo:
+                try:
+                    self.aluno_lista = json.load(arquivo)
+
+                    if not isinstance(self.aluno_lista, list):
+                        self.aluno_lista = []
+
+                except json.JSONDecodeError:
+                    self.aluno_lista = []
+        else:
+
+            self.aluno_lista = []
+
+    
+    def cadastrar_aluno(self, nome, cpf, data_nascimento, endereco, telefone,):
+
+        aluno = {
+            'nome': nome,
+            'cpf': cpf,
+            'data_nascimento': data_nascimento,
+            'endereco': endereco,
+            'telefone': telefone
+        }
+        
+
+        self.aluno_lista.append(aluno)
+
+        with open('arquivos/alunos.json', 'w') as arquivo:
+
+            json.dump(self.aluno_lista, arquivo, indent=4)
+        
+        print(f"✅ Aluno '{nome}' cadastrado com sucesso!")
+

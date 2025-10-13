@@ -4,12 +4,13 @@ from tkinter import messagebox
 import customtkinter as ctk
 from sistema import Adm
 adm = Adm()
-
-
-
-
+from sistema import Aluno
+aluno = Aluno()
 ctk.set_appearance_mode('dark')
 ctk.set_default_color_theme("dark-blue")
+
+
+
 
 
 
@@ -133,9 +134,7 @@ def tela_professor_1(logado_profe):
 
     nome_al =ctk.CTkEntry(tela_professor_1, placeholder_text= 'nome')
     nome_al.pack(padx=10, pady=10)
-    var_nome = ctk.BooleanVar()
-    nome_alA =ctk.CTkCheckBox(tela_professor_1,   variable=var_nome)
-    nome_alA.pack(padx=10, pady=10)
+
 
     
     def alterar():
@@ -177,7 +176,7 @@ def tela_adm(tela_ant):
         
         adm.cadastrar_professor_cpf(nome_profe,profe_cpf)
 
-
+ 
 
 
     btn_cpf_prof =ctk.CTkButton(tela_adm, text="cpf", command=cadastro_cpf_prof)
@@ -187,6 +186,59 @@ def tela_adm(tela_ant):
 
 
     tela_adm.mainloop()
+
+
+def tela_aluno_cadastro(tela_ant):
+    tela_ant.destroy()
+    
+    tela_aluno_ca = ctk.CTk() 
+    tela_aluno_ca.geometry('500x400')
+    
+
+    txt = ctk.CTkLabel(tela_aluno_ca,text='insira seus dados')
+    txt.pack(padx=10, pady=10 )
+    nome =ctk.CTkEntry(tela_aluno_ca, placeholder_text= 'nome')
+    nome.pack(padx=10, pady=10)
+    nascimento =ctk.CTkEntry(tela_aluno_ca, placeholder_text= 'data_nascimento')
+    nascimento.pack(padx=10, pady=10)
+    cpf =ctk.CTkEntry(tela_aluno_ca, placeholder_text= 'cpf')
+    cpf.pack(padx=10, pady=10)
+    contato =ctk.CTkEntry(tela_aluno_ca, placeholder_text= 'telefone')
+    contato.pack(padx=10, pady=10)
+    endereco =ctk.CTkEntry(tela_aluno_ca, placeholder_text= 'endereco')
+    endereco.pack(padx=10, pady=10)
+
+    def aluno_cadastro():
+        
+        aluno_nome = nome.get()
+        aluno_cpf = cpf.get()
+        aluno_contato = contato.get()
+        data_nascimento = nascimento.get()
+        aluno_endereco = endereco.get()
+        #usar nome e cpf como "email"
+
+        if not (aluno_nome and  aluno_cpf  and aluno_contato and data_nascimento):
+            messagebox.showwarning("Atenção", "Preencha todos os campos!")
+            return
+        
+        
+        
+        ve_aluno =   aluno.cadastrar_aluno(aluno_nome,aluno_cpf,data_nascimento,aluno_endereco,aluno_contato)
+       
+        if ve_aluno :
+            messagebox.showinfo('aaaaaaa',f" aluno nao cadastrado por um")
+
+
+       
+   
+    
+    btn_cadastrar =ctk.CTkButton(tela_aluno_ca, text="Cadastrar", command=aluno_cadastro)
+    btn_cadastrar.pack(pady=15)
+    tela_index =ctk.CTkButton(tela_aluno_ca, text="index", command=lambda: index(tela_aluno_ca))
+    tela_index.pack(pady=15)
+    
+    
+    tela_aluno_ca.mainloop()
 
 def index(tela_ant=None):
     if tela_ant:
@@ -201,6 +253,7 @@ def index(tela_ant=None):
     btn_professor.pack(pady=15)
     btn_adm  =ctk.CTkButton(index, text="administração", command=lambda: tela_adm(index))
     btn_adm.pack(pady=15)
-
+    btn_aluno = ctk.CTkButton(index,text='aluno', command=lambda: tela_aluno_cadastro(index) )
+    btn_aluno.pack(pady=15)
     index.mainloop()
 index()
