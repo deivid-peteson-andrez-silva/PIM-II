@@ -6,6 +6,10 @@ from sistema import Adm
 adm = Adm()
 from sistema import Aluno
 aluno = Aluno()
+from PIL import Image
+
+
+
 ctk.set_appearance_mode('dark')
 ctk.set_default_color_theme("dark-blue")
 
@@ -186,7 +190,9 @@ def tela_aluno_cadastro(tela_ant):
         
         ve_aluno =   aluno.cadastrar_aluno(aluno_nome,aluno_cpf,data_nascimento,aluno_endereco,aluno_contato)
        
-        if ve_aluno :
+        if ve_aluno == 2 : 
+            messagebox.showwarning("Atenção", " cadastrado")
+        elif ve_aluno :
             messagebox.showinfo('aaaaaaa',f" aluno nao cadastrado por um")
 
 
@@ -207,14 +213,24 @@ def index(tela_ant=None):
     
 
     index =ctk.CTk()
-    index.geometry('500x400')
+    index.geometry('500x500')
+
+    img_fundo = ctk.CTkImage(
+        light_image=Image.open('img.png'),
+        dark_image=Image.open('img.png'),
+        size=(500, 500)
+    )
 
 
+    fundo = ctk.CTkLabel(index , image=img_fundo, text='')
+    fundo.place(x=0, y=0)
+    txt = ctk.CTkLabel(index , text='')
+    txt.pack(padx=10, pady=45 )
     btn_professor  =ctk.CTkButton(index, text="professor", command=lambda: tela_logar_professor(index))
-    btn_professor.pack(pady=15)
+    btn_professor.pack(pady=30)
     btn_adm  =ctk.CTkButton(index, text="administração", command=lambda: tela_adm(index))
-    btn_adm.pack(pady=15)
+    btn_adm.pack(pady=30)
     btn_aluno = ctk.CTkButton(index,text='aluno', command=lambda: tela_aluno_cadastro(index) )
-    btn_aluno.pack(pady=15)
+    btn_aluno.pack(pady=30)
     index.mainloop()
 index()

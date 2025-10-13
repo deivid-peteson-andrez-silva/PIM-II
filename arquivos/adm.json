@@ -5,6 +5,14 @@
         {
             "nome": "andrez",
             "cpf": "123456"
+        },
+        {
+            "nome": "deivid",
+            "cpf": "123456"
+        },
+        {
+            "nome": "peterson",
+            "cpf": "123456"
         }
     ]
 }

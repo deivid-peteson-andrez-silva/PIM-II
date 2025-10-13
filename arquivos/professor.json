@@ -5,5 +5,12 @@
         "professor_contato": "9999",
         "professor_diciplina": "aaaaaaaaa",
         "professor_senha": "$2b$12$WrCLk4sFuyf8upzfMnfO5.7GVqwEiwLpYc9O7YkmFwW4k3EnCwEsC"
+    },
+    {
+        "professor_nome": "deivid",
+        "professor_cpf": "123456",
+        "professor_contato": "999",
+        "professor_diciplina": "aaaaa",
+        "professor_senha": "$2b$12$T4D2V9ZROZAr95HtoTFsme/dj2TyJIUgPQMp7ZjeWoIwXPbM/wBEW"
     }
 ]
