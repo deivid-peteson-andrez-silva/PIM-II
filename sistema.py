@@ -1,5 +1,5 @@
 import json          
-import bcrypt   
+from passlib.hash import bcrypt   
 import socket
 from tkinter import messagebox 
 
