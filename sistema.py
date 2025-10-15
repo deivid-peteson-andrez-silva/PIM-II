@@ -4,7 +4,7 @@ import socket
 from tkinter import messagebox 
 
 
-SERVER_IP = "192.168.1.201"  # ex: "192.168.0.100"
+SERVER_IP = "192.168.1.203"  # ex: "192.168.0.100"
 SERVER_PORT = 5000
 
 def enviar_servidor(tipo, dados):
