@@ -12,5 +12,19 @@
         "professor_contato": "999",
         "professor_diciplina": "aaaaa",
         "professor_senha": "$2b$12$T4D2V9ZROZAr95HtoTFsme/dj2TyJIUgPQMp7ZjeWoIwXPbM/wBEW"
+    },
+    {
+        "professor_nome": "deivid",
+        "professor_cpf": "123",
+        "professor_contato": "999",
+        "professor_diciplina": "musica 3",
+        "professor_senha": "$2b$12$vW4iw5H.YcZKOlzKxdZmq.rz8Wqgsn2Ng4OC5eGxLnKGEMFQjhjB6"
+    },
+    {
+        "professor_nome": "deivid",
+        "professor_cpf": "123",
+        "professor_contato": "999",
+        "professor_diciplina": "abcdefghjklnmopqrstuvwxyz",
+        "professor_senha": "$2b$12$20D6PDpYPJz1a5cGnhqNwu2wuoaVLnZsFLd34TGY5XDLT6Zu.IsgS"
     }
 ]

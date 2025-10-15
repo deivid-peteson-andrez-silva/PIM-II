@@ -26,5 +26,22 @@
         "data_nascimento": "a",
         "endereco": "a",
         "telefone": "a"
+    },
+    {
+        "nome": "devid",
+        "cpf": "999",
+        "data_nascimento": "1109",
+        "endereco": "rua",
+        "telefone": "999",
+        "senha": "$2b$12$Wvf1E4BJIXT7YKDDtUbWR.aD8rMeGUSzgeW5nGsT/tqxMkYt/lqTu"
+    },
+    {
+        "nome": "qqqq",
+        "cpf": "qqqq",
+        "data_nascimento": "qqqq",
+        "endereco": "qqqq",
+        "telefone": "qqqq",
+        "curso": "musica 3",
+        "senha": "$2b$12$HEk5PQNRlI9PuklQKilQBe8VKNn1afODXD4IXDUWlLn/8AZDWWKW6"
     }
 ]

@@ -1,8 +1,6 @@
 import json      
 import os        
 import bcrypt    
-from tkinter import messagebox 
-import random
 
 
 class Professor:
@@ -28,7 +26,7 @@ class Professor:
             self.professor_lista = [] 
     
 
-    def cadastro(self, profe_nome, profe_cpf, profe_contato, profe_diciplina, profe_senha):
+    def cadastro(self, profe_nome, profe_cpf, profe_contato, profe_curso, profe_senha):
 
         adm = Adm()
         cpf_ve = adm.adm_ve(profe_cpf)
@@ -39,7 +37,7 @@ class Professor:
                 'professor_nome': profe_nome,
                 'professor_cpf': profe_cpf,
                 'professor_contato': profe_contato,
-                'professor_diciplina': profe_diciplina,
+                'professor_diciplina': profe_curso,
                 
  
                 'professor_senha': bcrypt.hashpw(profe_senha.encode(), bcrypt.gensalt()).decode(),
@@ -90,17 +88,51 @@ class Adm :
                 except json.JSONDecodeError:
                     self.adm_dados = {"login_adm":"adm123","senha_adm":"adm123","cpf_professor":[]}
         else:
-            self.adm_dados = {"login_adm":"adm123","senha_adm":"adm123",'cpf_professor':[]}
-    def cadastrar_professor_cpf(self,nome_profe ,cpf_professor):
+            self.adm_dados = {"login_adm":"adm123","senha_adm":"adm123",'cpf_professor':[],"curso_diciplina":[]}
+    def cadastrar_professor_cpf(self,nome_profe ,cpf_professor,coordenador=False):
         novo_profe = {
             "nome": nome_profe,
-            "cpf": cpf_professor
+            "cpf": cpf_professor,
+             "coordenador": coordenador
         }
         self.adm_dados['cpf_professor'].append(novo_profe)
  
         with open('arquivos/adm.json', 'w') as arquivo:
             json.dump(self.adm_dados,arquivo,indent=4)
       
+      
+    def cadastrar_curso(self,nome,profe_coordenador,carga_hora):
+        novo_curso={
+            'nome_curso':nome,
+            'professor_coordenador':profe_coordenador,
+            'curso_carga_hora':carga_hora
+        }
+
+        self.adm_dados['curso_diciplina'].append(novo_curso)
+        with open('arquivos/adm.json', 'w') as arquivo:
+            json.dump(self.adm_dados,arquivo,indent=4)       
+    
+    def listar_cursos(self):
+
+        try:
+            with open('arquivos/adm.json', 'r') as arquivo:
+                dados = json.load(arquivo)
+                return [curso['nome_curso'] for curso in dados.get('curso_diciplina', [])]
+        except (FileNotFoundError, json.JSONDecodeError):
+            return []
+    
+    def listar_coordenadores(self):
+
+        try:
+            with open('arquivos/adm.json', 'r') as arquivo:
+                dados = json.load(arquivo)
+                return [prof['nome'] for prof in dados.get('cpf_professor', []) if prof.get('coordenador')]
+        except (FileNotFoundError, json.JSONDecodeError):
+            return []
+    
+    
+    
+    
     def adm_ve(self,profe_cpf):
         for prof in self.adm_dados["cpf_professor"]:
             if prof["cpf"] == profe_cpf:
@@ -108,6 +140,10 @@ class Adm :
         
         
         return False
+    
+    
+    
+    
     
 
 class Aluno:
@@ -132,14 +168,16 @@ class Aluno:
             self.aluno_lista = []
 
     
-    def cadastrar_aluno(self, nome, cpf, data_nascimento, endereco, telefone,):
+    def cadastrar_aluno(self, nome, cpf, data_nascimento, endereco, telefone,senha,curso ):
 
         aluno = {
             'nome': nome,
             'cpf': cpf,
             'data_nascimento': data_nascimento,
             'endereco': endereco,
-            'telefone': telefone
+            'telefone': telefone,
+            'curso': curso,
+            'senha': bcrypt.hashpw(senha.encode(), bcrypt.gensalt()).decode(),
         }
         
 
@@ -150,3 +188,24 @@ class Aluno:
             json.dump(self.aluno_lista, arquivo, indent=4)
         
         return
+    def logar_aluno(self, aluno_cpf, aluno_senha):
+            """
+        faz o login do alno meio obivio ne
+            """
+            aluno_encontrado = None
+            cpf_login = aluno_cpf
+            
+            # Procura o aluno pelo CPF
+            for aluno in self.aluno_lista:
+                if aluno['cpf'] == cpf_login:
+                    aluno_encontrado = aluno
+                    break
+            
+            if not aluno_encontrado:
+                return 1  # CPF não encontrado
+            else:
+                # Verifica a senha
+                if bcrypt.checkpw(aluno_senha.encode(), aluno_encontrado['senha'].encode()):
+                    return aluno_encontrado  # Login bem-sucedido
+                else:
+                    return 2  # Senha incorreta

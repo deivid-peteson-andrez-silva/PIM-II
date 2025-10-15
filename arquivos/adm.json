@@ -3,16 +3,49 @@
     "senha_adm": "adm123",
     "cpf_professor": [
         {
+            "nome": "deivid",
+            "cpf": "123"
+        },
+        {
             "nome": "andrez",
-            "cpf": "123456"
+            "cpf": "123"
         },
         {
             "nome": "deivid",
-            "cpf": "123456"
+            "cpf": "andrez",
+            "coordenador": true
         },
         {
             "nome": "peterson",
-            "cpf": "123456"
+            "cpf": "123",
+            "coordenador": true
+        },
+        {
+            "nome": "aaaaa",
+            "cpf": "111",
+            "coordenador": false
+        }
+    ],
+    "curso_diciplina": [
+        {
+            "nome_curso": "musica1",
+            "professor_coordenador": "deivid",
+            "curso_carga_hora": "100"
+        },
+        {
+            "nome_curso": "musica 2 ",
+            "professor_coordenador": "andrez",
+            "curso_carga_hora": "200"
+        },
+        {
+            "nome_curso": "musica 3",
+            "professor_coordenador": "peterson",
+            "curso_carga_hora": "100"
+        },
+        {
+            "nome_curso": "abcdefghjklnmopqrstuvwxyz",
+            "professor_coordenador": "peterson",
+            "curso_carga_hora": "200000000"
         }
     ]
 }
