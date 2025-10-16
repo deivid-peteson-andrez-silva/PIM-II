@@ -1,47 +1,34 @@
 [
     {
-        "nome": "deivid",
-        "cpf": "123456",
-        "data_nascimento": "11092004",
-        "endereco": "rua aaaaaaaaaa",
-        "telefone": "999"
+        "nome": "andrez",
+        "cpf": "123",
+        "data_nascimento": "123",
+        "endereco": "123",
+        "telefone": "123",
+        "curso": "aaa",
+        "senha": "$2b$12$TRrwDjoJBBOd2u94f11cROV7s/nCjS6mYubc36FM/Q8p5XqrK2tia"
     },
     {
-        "nome": "deivid",
-        "cpf": "123456",
-        "data_nascimento": "11092004",
-        "endereco": "rua",
-        "telefone": "999"
-    },
-    {
-        "nome": "deivid",
-        "cpf": "333",
-        "data_nascimento": "1104564",
-        "endereco": "3333",
-        "telefone": "33"
-    },
-    {
-        "nome": "a",
-        "cpf": "a",
-        "data_nascimento": "a",
-        "endereco": "a",
-        "telefone": "a"
-    },
-    {
-        "nome": "devid",
-        "cpf": "999",
-        "data_nascimento": "1109",
-        "endereco": "rua",
-        "telefone": "999",
-        "senha": "$2b$12$Wvf1E4BJIXT7YKDDtUbWR.aD8rMeGUSzgeW5nGsT/tqxMkYt/lqTu"
-    },
-    {
-        "nome": "qqqq",
-        "cpf": "qqqq",
-        "data_nascimento": "qqqq",
-        "endereco": "qqqq",
-        "telefone": "qqqq",
-        "curso": "musica 3",
-        "senha": "$2b$12$HEk5PQNRlI9PuklQKilQBe8VKNn1afODXD4IXDUWlLn/8AZDWWKW6"
+        "nome": "aaaaaa",
+        "cpf": "111",
+        "data_nascimento": "123",
+        "endereco": "111",
+        "telefone": "111",
+        "curso": "aaa",
+        "senha": "$2b$12$7hxD7UYhRCXSc3bPNoRkYejHevIkZQooRbh9TiKg3uv1efarOzn/e",
+        "respostas": [
+            {
+                "professor": "deivid",
+                "resposta": "11111"
+            },
+            {
+                "professor": "deivid",
+                "resposta": "2222"
+            },
+            {
+                "professor": "asdad",
+                "resposta": "3333"
+            }
+        ]
     }
 ]

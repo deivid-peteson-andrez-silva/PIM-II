@@ -4,48 +4,38 @@
     "cpf_professor": [
         {
             "nome": "deivid",
-            "cpf": "123"
-        },
-        {
-            "nome": "andrez",
-            "cpf": "123"
-        },
-        {
-            "nome": "deivid",
-            "cpf": "andrez",
-            "coordenador": true
-        },
-        {
-            "nome": "peterson",
             "cpf": "123",
             "coordenador": true
         },
         {
-            "nome": "aaaaa",
+            "nome": "adasd",
             "cpf": "111",
             "coordenador": false
         }
     ],
     "curso_diciplina": [
         {
-            "nome_curso": "musica1",
+            "nome_curso": "aaa",
             "professor_coordenador": "deivid",
-            "curso_carga_hora": "100"
-        },
-        {
-            "nome_curso": "musica 2 ",
-            "professor_coordenador": "andrez",
-            "curso_carga_hora": "200"
-        },
-        {
-            "nome_curso": "musica 3",
-            "professor_coordenador": "peterson",
-            "curso_carga_hora": "100"
-        },
-        {
-            "nome_curso": "abcdefghjklnmopqrstuvwxyz",
-            "professor_coordenador": "peterson",
-            "curso_carga_hora": "200000000"
+            "curso_carga_hora": "aaa",
+            "atividades": [
+                {
+                    "professor": "deivid",
+                    "texto": "aaaaaaaaaaaaaaaaaaaaaa\naaaaaaaaaa\naaaaaaaaaaaaaaaaaaaaa\naaaa\naaaaaaaaaaa\naaaa"
+                },
+                {
+                    "professor": "deivid",
+                    "texto": "bbbbbbbbbbbbbbbbbbb\nbbbbbbbbb\nb\nbbbbbbbbbbbbbbbb\nbbbbbbbb"
+                },
+                {
+                    "professor": "asdad",
+                    "texto": "cccccccccccccccccccccccc\ncccccccccccccccccc\nccccccccccccccccc"
+                },
+                {
+                    "professor": "asdad",
+                    "texto": "111111111111111111111111\n1111111111111111\n111\n\n1111"
+                }
+            ]
         }
     ]
 }

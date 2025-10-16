@@ -7,6 +7,7 @@ adm = Adm()
 from sistema import Aluno
 aluno = Aluno()
 from PIL import Image
+import json      
 
 
 
@@ -132,37 +133,6 @@ def tela_logar_professor(tela_ant):
     tela_index.pack(pady=15)
     logar_professor.mainloop()
 
-def tela_professor_1(logado_profe):
-    
-    tela_professor_1 =ctk.CTk()
-    tela_professor_1.geometry('500x500')
-
-    img_fundo = ctk.CTkImage(
-        light_image=Image.open('img.png'),
-        dark_image=Image.open('img.png'),
-        size=(500, 500)
-    )
-    fundo = ctk.CTkLabel(tela_professor_1 , image=img_fundo, text='')
-    fundo.place(x=0, y=0)
-    
-
-
-    texto = ctk.CTkLabel(tela_professor_1, text=f"Professor {logado_profe}", font=("Arial", 10))  
-    texto.pack(pady=50) 
-    nome_al =ctk.CTkEntry(tela_professor_1, placeholder_text= 'nome')
-    nome_al.pack(padx=10, pady=10)
-    
-    def alterar():
-        
-        nome = nome_al.get()
-        logado_profe_al = logado_profe
-        professor.alterar(logado_profe_al, nome)
-    
-    btn_logar_prof =ctk.CTkButton(tela_professor_1, text="alterar", command=alterar)
-    btn_logar_prof.pack(pady=15)
-    tela_index =ctk.CTkButton(tela_professor_1, text="index", command=lambda: index(tela_professor_1))
-    tela_index.pack(pady=15)
-    tela_professor_1.mainloop()
 
 def tela_adm(tela_ant):
     tela_ant.destroy()
@@ -217,6 +187,8 @@ def tela_adm(tela_ant):
     tela_index.pack(pady=15)
 
     tela_adm.mainloop()
+    
+    
 def tela_aluno_cadastro(tela_ant):
     tela_ant.destroy()    
     tela_aluno_ca = ctk.CTk() 
@@ -289,15 +261,6 @@ def tela_aluno_cadastro(tela_ant):
     
     tela_aluno_ca.mainloop()
 
-
-
-
-
-
-
-
-
-
 def tela_logar_aluno(tela_ant):
 
 
@@ -340,7 +303,7 @@ def tela_logar_aluno(tela_ant):
             log_senha.delete(0, "end")
             Log_cpf.delete(0, "end")    
             logar_aluno.destroy()
-            tela_professor_1(logado_aluno)
+            tela_aluno_1(logado_aluno)
             
     
     btn_logar_aluno =ctk.CTkButton(logar_aluno, text="logar", command=aluno_login)
@@ -353,63 +316,6 @@ def tela_logar_aluno(tela_ant):
     logar_aluno.mainloop()
 
 
-
-
-
-
-def tela_aluno_1():
-    
-
-
-    index_aluno =ctk.CTk()
-    index_aluno.geometry('500x500')
-
-    img_fundo = ctk.CTkImage(
-        light_image=Image.open('img.png'),
-        dark_image=Image.open('img.png'),
-        size=(500, 500)
-    )
-    fundo = ctk.CTkLabel(index_aluno , image=img_fundo, text='')
-    fundo.place(x=0, y=0)
-    
-
-
-
-    index_aluno.mainloop()
-
-
-
-
-
-
-
-
-
-def index(tela_ant=None):
-    if tela_ant:
-        tela_ant.destroy()    
-    
-
-    index =ctk.CTk()
-    index.geometry('500x500')
-
-    img_fundo = ctk.CTkImage(
-        light_image=Image.open('img.png'),
-        dark_image=Image.open('img.png'),
-        size=(500, 500)
-    )
-    fundo = ctk.CTkLabel(index , image=img_fundo, text='')
-    fundo.place(x=0, y=0)
-    
-    txt = ctk.CTkLabel(index , text='')
-    txt.pack(padx=10, pady=45 )
-    btn_professor  =ctk.CTkButton(index, text="professor", command=lambda: tela_logar_professor(index))
-    btn_professor.pack(pady=30)
-    btn_adm  =ctk.CTkButton(index, text="administração", command=lambda: tela_adm(index))
-    btn_adm.pack(pady=30)
-    btn_aluno = ctk.CTkButton(index,text='aluno', command=lambda: tela_logar_aluno(index) )
-    btn_aluno.pack(pady=30)
-    index.mainloop()
 
 def tela_cadastrar_curso(tela_ant):
     tela_ant.destroy()
@@ -433,7 +339,6 @@ def tela_cadastrar_curso(tela_ant):
     carga_hora = ctk.CTkEntry(tela_curso, placeholder_text='Carga Horária (em horas)')
     carga_hora.pack(padx=10, pady=10)
 
-    # 🔽 pega apenas coordenadores
     coordenadores = adm.listar_coordenadores()
     if not coordenadores:
         coordenadores = ['Nenhum coordenador disponível']
@@ -469,4 +374,190 @@ def tela_cadastrar_curso(tela_ant):
     tela_curso.mainloop()
 
 #tela_cadastrar_curso()
+
+def index(tela_ant=None):
+    if tela_ant:
+        tela_ant.destroy()    
+    
+
+    index =ctk.CTk()
+    index.geometry('500x500')
+
+    img_fundo = ctk.CTkImage(
+        light_image=Image.open('img.png'),
+        dark_image=Image.open('img.png'),
+        size=(500, 500)
+    )
+    fundo = ctk.CTkLabel(index , image=img_fundo, text='')
+    fundo.place(x=0, y=0)
+    
+    txt = ctk.CTkLabel(index , text='')
+    txt.pack(padx=10, pady=45 )
+    btn_professor  =ctk.CTkButton(index, text="professor", command=lambda: tela_logar_professor(index))
+    btn_professor.pack(pady=30)
+    btn_adm  =ctk.CTkButton(index, text="administração", command=lambda: tela_adm(index))
+    btn_adm.pack(pady=30)
+    btn_aluno = ctk.CTkButton(index,text='aluno', command=lambda: tela_logar_aluno(index) )
+    btn_aluno.pack(pady=30)
+    index.mainloop()
+
+def tela_aluno_1(logado_aluno):
+    tela = ctk.CTk()
+    tela.geometry("700x500")
+    tela.title(f"Aluno {logado_aluno['nome']}")
+
+    lbl = ctk.CTkLabel(tela, text=f"Bem-vindo(a), {logado_aluno['nome']}", font=("Arial", 16))
+    lbl.pack(pady=10)
+
+    atividades = aluno.ver_atividades(logado_aluno["nome"])
+
+    if not atividades:
+        ctk.CTkLabel(tela, text="Nenhuma atividade disponível.").pack(pady=20)
+    else:
+        for atv in atividades:
+            frame = ctk.CTkFrame(tela)
+            frame.pack(pady=10, padx=10, fill="x")
+
+            ctk.CTkLabel(frame, text=f"Professor: {atv['professor']}", font=("Arial", 12, "bold")).pack(anchor="w", padx=10)
+            ctk.CTkLabel(frame, text=f"Atividade:\n{atv['texto']}", wraplength=600, justify="left").pack(anchor="w", padx=20)
+
+            resposta_box = ctk.CTkTextbox(frame, width=600, height=80)
+            resposta_box.pack(padx=10, pady=5)
+
+            def enviar_resposta(atv_prof=atv["professor"], box=resposta_box):
+                resposta = box.get("1.0", "end").strip()
+                if resposta:
+                    aluno.enviar_resposta(logado_aluno["nome"], atv_prof, resposta)
+                    messagebox.showinfo("Sucesso", "Resposta enviada com sucesso!")
+                    tela.destroy()
+                    tela_aluno_1(logado_aluno)
+                else:
+                    messagebox.showwarning("Erro", "Digite uma resposta antes de enviar.")
+
+            btn_enviar = ctk.CTkButton(frame, text="Enviar Resposta", command=enviar_resposta)
+            btn_enviar.pack(pady=5)
+
+    tela.mainloop()
+
+
+
+def tela_professor_1(logado_profe):
+    tela = ctk.CTk()
+    tela.geometry("700x500")
+    tela.title(f"Professor {logado_profe['professor_nome']}")
+
+    lbl = ctk.CTkLabel(tela, text=f"Bem-vindo(a), {logado_profe['professor_nome']}", font=("Arial", 16))
+    lbl.pack(pady=20)
+
+    # Botão para enviar nova atividade
+    btn_atividade = ctk.CTkButton(tela, text="Criar nova atividade",
+                                  command=lambda: tela_atividade_prof(tela, logado_profe))
+    btn_atividade.pack(pady=10)
+
+    # Botão para corrigir respostas de alunos
+    btn_corrigir = ctk.CTkButton(tela, text="Corrigir respostas",
+                                 command=lambda: tela_corrigir(tela, logado_profe))
+    btn_corrigir.pack(pady=10)
+
+    tela.mainloop()
+
+
+
+# tela altera
+def tela_prof_altera(tela_ant,logado_profe):
+   # tela_ant.after(100, tela_ant.destroy)
+    tela_alterar_prof =ctk.CTk()
+    tela_alterar_prof.geometry('500x500')
+
+
+    img_fundo = ctk.CTkImage(
+        light_image=Image.open('img.png'),
+        dark_image=Image.open('img.png'),
+        size=(500, 500)
+    )
+    fundo = ctk.CTkLabel(tela_alterar_prof , image=img_fundo, text='')
+    fundo.place(x=0, y=0)
+
+    texto = ctk.CTkLabel(tela_alterar_prof, text=f"Professor {logado_profe['professor_nome']}", font=("Arial", 10))
+    texto.pack(pady=50) 
+    nome_al =ctk.CTkEntry(tela_alterar_prof, placeholder_text= 'nome')
+    nome_al.pack(padx=10, pady=10)
+    
+    def alterar():
+        novo_nome = nome_al.get()
+        if novo_nome.strip():
+            professor.alterar(logado_profe, novo_nome)
+            messagebox.showinfo("Sucesso", f"Nome alterado para {novo_nome}")
+            texto.configure(text=f"Professor {novo_nome}")  # Atualiza o label
+            nome_al.delete(0, "end")
+
+    tela_alterar_prof.mainloop()
+    
+    
+def tela_atividade_prof(tela_ant, logado_profe):
+    tela_ant.destroy()
+    tela = ctk.CTk()
+    tela.geometry("600x500")
+    tela.title("Nova Atividade")
+
+    lbl = ctk.CTkLabel(tela, text="Digite o enunciado da atividade:", font=("Arial", 14))
+    lbl.pack(pady=10)
+
+    chat = ctk.CTkTextbox(tela, width=500, height=250)
+    chat.pack(pady=10)
+
+    def salvar_atividade():
+        texto = chat.get("1.0", "end").strip()
+        if texto:
+            professor.atividade(logado_profe["professor_nome"], texto)
+            messagebox.showinfo("Sucesso", "Atividade cadastrada!")
+            tela_professor_1(logado_profe)
+            tela.destroy()
+        else:
+            messagebox.showwarning("Erro", "O campo não pode estar vazio.")
+
+    btn_salvar = ctk.CTkButton(tela, text="Salvar atividade", command=salvar_atividade)
+    btn_salvar.pack(pady=20)
+
+    btn_voltar = ctk.CTkButton(tela, text="Voltar", command=lambda: [tela.destroy(), tela_professor_1(logado_profe)])
+    btn_voltar.pack()
+
+    tela.mainloop()
+        
+        
+def tela_corrigir(tela_ant, logado_profe):
+    from sistema import Aluno
+    aluno = Aluno()
+
+    tela_ant.destroy()
+    tela = ctk.CTk()
+    tela.geometry("700x500")
+    tela.title("Respostas dos alunos")
+
+    lbl = ctk.CTkLabel(tela, text="Respostas enviadas pelos alunos", font=("Arial", 14))
+    lbl.pack(pady=10)
+
+    # Mostra todas as respostas que mencionam o professor logado
+    respostas = []
+    for al in aluno.aluno_lista:
+        for r in al.get("respostas", []):
+            if r["professor"] == logado_profe["professor_nome"]:
+                respostas.append((al["nome"], r["resposta"]))
+
+    if not respostas:
+        ctk.CTkLabel(tela, text="Nenhuma resposta recebida ainda.").pack(pady=20)
+    else:
+        for nome, resp in respostas:
+            frame = ctk.CTkFrame(tela)
+            frame.pack(pady=10, padx=10, fill="x")
+
+            ctk.CTkLabel(frame, text=f"Aluno: {nome}", font=("Arial", 12, "bold")).pack(anchor="w", padx=10)
+            ctk.CTkLabel(frame, text=f"Resposta: {resp}", wraplength=600, justify="left").pack(anchor="w", padx=20)
+
+    btn_voltar = ctk.CTkButton(tela, text="Voltar", command=lambda: [tela.destroy(), tela_professor_1(logado_profe)])
+    btn_voltar.pack(pady=20)
+
+    tela.mainloop()
+
+#tela_professor_1('dsfdfdf')
 index()

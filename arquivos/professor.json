@@ -1,30 +1,24 @@
 [
     {
-        "professor_nome": "andrez",
-        "professor_cpf": "123456",
-        "professor_contato": "9999",
-        "professor_diciplina": "aaaaaaaaa",
-        "professor_senha": "$2b$12$WrCLk4sFuyf8upzfMnfO5.7GVqwEiwLpYc9O7YkmFwW4k3EnCwEsC"
-    },
-    {
-        "professor_nome": "deivid",
-        "professor_cpf": "123456",
-        "professor_contato": "999",
-        "professor_diciplina": "aaaaa",
-        "professor_senha": "$2b$12$T4D2V9ZROZAr95HtoTFsme/dj2TyJIUgPQMp7ZjeWoIwXPbM/wBEW"
-    },
-    {
         "professor_nome": "deivid",
         "professor_cpf": "123",
-        "professor_contato": "999",
-        "professor_diciplina": "musica 3",
-        "professor_senha": "$2b$12$vW4iw5H.YcZKOlzKxdZmq.rz8Wqgsn2Ng4OC5eGxLnKGEMFQjhjB6"
+        "professor_contato": "123",
+        "professor_diciplina": "aaa",
+        "professor_senha": "$2b$12$EkuwTHyfAdX7HCeSsCHvA.kArAbgZcFRaPwHE3idcDYptlAEFAsdC",
+        "atividades": [
+            "aaaaaaaaaaaaaaaaaaaaaa\naaaaaaaaaa\naaaaaaaaaaaaaaaaaaaaa\naaaa\naaaaaaaaaaa\naaaa",
+            "bbbbbbbbbbbbbbbbbbb\nbbbbbbbbb\nb\nbbbbbbbbbbbbbbbb\nbbbbbbbb"
+        ]
     },
     {
-        "professor_nome": "deivid",
-        "professor_cpf": "123",
-        "professor_contato": "999",
-        "professor_diciplina": "abcdefghjklnmopqrstuvwxyz",
-        "professor_senha": "$2b$12$20D6PDpYPJz1a5cGnhqNwu2wuoaVLnZsFLd34TGY5XDLT6Zu.IsgS"
+        "professor_nome": "asdad",
+        "professor_cpf": "111",
+        "professor_contato": "111",
+        "professor_diciplina": "aaa",
+        "professor_senha": "$2b$12$/tqtjx1n7GDNc/PXiu1p/eKQzwUfLYSTLoGsvnCg4EzMGYGTcHkpK",
+        "atividades": [
+            "cccccccccccccccccccccccc\ncccccccccccccccccc\nccccccccccccccccc",
+            "111111111111111111111111\n1111111111111111\n111\n\n1111"
+        ]
     }
 ]
