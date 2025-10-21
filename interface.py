@@ -439,6 +439,43 @@ def tela_aluno_1(logado_aluno):
 
     tela.mainloop()
 
+def tela_ver_notas(tela_ant, logado_aluno):
+    tela_ant.destroy()
+    tela = ctk.CTk()
+    tela.geometry("700x500")
+    tela.title("Minhas Notas")
+
+    ctk.CTkLabel(tela, text=f"Notas de {logado_aluno['nome']}", font=("Arial", 16)).pack(pady=15)
+
+    try:
+        with open("arquivos/alunos.json", "r", encoding="utf-8") as arq:
+            alunos = json.load(arq)
+    except:
+        alunos = []
+
+    notas = []
+    for al in alunos:
+        if al["nome"] == logado_aluno["nome"]:
+            notas = al.get("notas", [])
+            break
+
+    if not notas:
+        ctk.CTkLabel(tela, text="Você ainda não possui notas registradas.").pack(pady=20)
+    else:
+        for item in notas:
+            frame = ctk.CTkFrame(tela)
+            frame.pack(pady=10, padx=10, fill="x")
+
+            ctk.CTkLabel(frame, text=f"Professor: {item['professor']}", font=("Arial", 12, "bold")).pack(anchor="w", padx=10)
+            ctk.CTkLabel(frame, text=f"Atividade: {item['atividade']}", wraplength=600, justify="left").pack(anchor="w", padx=20)
+            ctk.CTkLabel(frame, text=f"Nota: {item['nota']}", font=("Arial", 12)).pack(anchor="w", padx=20, pady=5)
+
+    btn_voltar = ctk.CTkButton(tela, text="Voltar", command=lambda: [tela.destroy(), tela_aluno_1(logado_aluno)])
+    btn_voltar.pack(pady=20)
+
+    tela.mainloop()
+
+
 
 
 def tela_professor_1(logado_profe):
@@ -453,6 +490,13 @@ def tela_professor_1(logado_profe):
     btn_atividade = ctk.CTkButton(tela, text="Criar nova atividade",
                                   command=lambda: tela_atividade_prof(tela, logado_profe))
     btn_atividade.pack(pady=10)
+
+    # Botão para atribuir nota
+
+    btn_nota = ctk.CTkButton(tela, text="Atribuir nota",
+                         command=lambda: tela_atribuir_nota(tela, logado_profe))
+    btn_nota.pack(pady=10)
+
 
     # Botão para corrigir respostas de alunos
     btn_corrigir = ctk.CTkButton(tela, text="Corrigir respostas",
@@ -558,6 +602,65 @@ def tela_corrigir(tela_ant, logado_profe):
     btn_voltar.pack(pady=20)
 
     tela.mainloop()
+
+def tela_atribuir_nota(tela_ant, logado_profe):
+    tela_ant.destroy()
+    tela = ctk.CTk()
+    tela.geometry("700x500")
+    tela.title("Atribuir Nota")
+
+    ctk.CTkLabel(tela, text="Atribuir Nota a um Aluno", font=("Arial", 16)).pack(pady=15)
+
+    nome_aluno = ctk.CTkEntry(tela, placeholder_text="Nome do Aluno")
+    nome_aluno.pack(pady=10)
+
+    atividade = ctk.CTkEntry(tela, placeholder_text="Nome ou texto da atividade")
+    atividade.pack(pady=10)
+
+    nota = ctk.CTkEntry(tela, placeholder_text="Nota (0 - 10)")
+    nota.pack(pady=10)
+
+    def salvar_nota():
+        nome_a = nome_aluno.get().strip()
+        atividade_t = atividade.get().strip()
+        nota_val = nota.get().strip()
+
+        if not (nome_a and atividade_t and nota_val):
+            messagebox.showwarning("Atenção", "Preencha todos os campos!")
+            return
+
+        try:
+            nota_num = float(nota_val)
+            if nota_num < 0 or nota_num > 10:
+                raise ValueError
+        except ValueError:
+            messagebox.showerror("Erro", "Digite uma nota válida entre 0 e 10.")
+            return
+
+        resultado = professor.atribuir_nota(
+            logado_profe["professor_nome"],
+            nome_a,
+            atividade_t,
+            nota_num
+        )
+
+        if resultado == 0:
+            messagebox.showerror("Erro", "Arquivo de alunos não encontrado.")
+        elif resultado == 1:
+            messagebox.showerror("Erro", "Aluno não encontrado.")
+        elif resultado == 2:
+            messagebox.showinfo("Sucesso", f"Nota {nota_num} atribuída a {nome_a} na atividade '{atividade_t}'!")
+            tela.destroy()
+            tela_professor_1(logado_profe)
+
+    btn_salvar = ctk.CTkButton(tela, text="Salvar Nota", command=salvar_nota)
+    btn_salvar.pack(pady=15)
+
+    btn_voltar = ctk.CTkButton(tela, text="Voltar", command=lambda: [tela.destroy(), tela_professor_1(logado_profe)])
+    btn_voltar.pack(pady=15)
+
+    tela.mainloop()
+
 
 #tela_professor_1('dsfdfdf')
 index()
