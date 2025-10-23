@@ -20,5 +20,12 @@
             "cccccccccccccccccccccccc\ncccccccccccccccccc\nccccccccccccccccc",
             "111111111111111111111111\n1111111111111111\n111\n\n1111"
         ]
+    },
+    {
+        "professor_nome": "EE",
+        "professor_cpf": "123",
+        "professor_contato": "123",
+        "professor_diciplina": "aaa",
+        "professor_senha": "$2b$12$5AIpsltt5kGYGiDNWThMeONENPQBkHWHHxHychmFIysvPfY/G2GvG"
     }
 ]
