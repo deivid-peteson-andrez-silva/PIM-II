@@ -11,8 +11,13 @@ import json
 
 
 
+# telas professor  
+
+
 ctk.set_appearance_mode('dark')
 ctk.set_default_color_theme("dark-blue")
+
+
 def tela_profe_cadastro(tela_ant):    
     tela_ant.destroy()
     cadastro = ctk.CTk()
@@ -132,313 +137,7 @@ def tela_logar_professor(tela_ant):
     tela_index =ctk.CTkButton(logar_professor, text="index", command=lambda: index(logar_professor))
     tela_index.pack(pady=15)
     logar_professor.mainloop()
-
-
-def tela_adm(tela_ant):
-    tela_ant.destroy()
-    tela_adm = ctk.CTk() 
-    tela_adm.geometry('500x500')
-
-    img_fundo = ctk.CTkImage(
-        light_image=Image.open('img.png'),
-        dark_image=Image.open('img.png'),
-        size=(500, 500)
-    )
-    fundo = ctk.CTkLabel(tela_adm , image=img_fundo, text='')
-    fundo.place(x=0, y=0)
     
-    nome = ctk.CTkEntry(tela_adm, placeholder_text='Nome do Professor')
-    nome.pack(padx=10, pady=10)
-
-    cpf = ctk.CTkEntry(tela_adm, placeholder_text='CPF do Professor')
-    cpf.pack(padx=10, pady=10)
-
-    ctk.CTkLabel(tela_adm, text="É Coordenador?").pack(pady=(10, 0))
-    var_coord = ctk.BooleanVar(value=False)
-    switch_coord = ctk.CTkSwitch(
-        tela_adm, text="Coordenador", variable=var_coord,
-        onvalue=True, offvalue=False
-    )
-    switch_coord.pack(pady=10)
-
-    def cadastro_cpf_prof():
-        nome_profe = nome.get()
-        profe_cpf = cpf.get()
-        is_coord = var_coord.get()
-
-        if not (nome_profe and profe_cpf):
-            messagebox.showwarning("Atenção", "Preencha todos os campos!")
-            return
-        
-        adm.cadastrar_professor_cpf(nome_profe, profe_cpf, is_coord)
-        messagebox.showinfo("Sucesso", f"Professor '{nome_profe}' cadastrado! Coordenador: {is_coord}")
-
-        nome.delete(0, "end")
-        cpf.delete(0, "end")
-        var_coord.set(False)
-
-    btn_cpf_prof = ctk.CTkButton(tela_adm, text="Cadastrar Professor", command=cadastro_cpf_prof)
-    btn_cpf_prof.pack(pady=15)
-
-    btn_cadastrar_curso = ctk.CTkButton(tela_adm,text="Cadastrar Curso",command=lambda: tela_cadastrar_curso(tela_adm))
-    btn_cadastrar_curso.pack(pady=10)
-
-    tela_index = ctk.CTkButton(tela_adm, text="Voltar", command=lambda: index(tela_adm))
-    tela_index.pack(pady=15)
-
-    tela_adm.mainloop()
-    
-    
-def tela_aluno_cadastro(tela_ant):
-    tela_ant.destroy()    
-    tela_aluno_ca = ctk.CTk() 
-    tela_aluno_ca.geometry('500x550')
-    
-    img_fundo = ctk.CTkImage(
-        light_image=Image.open('img.png'),
-        dark_image=Image.open('img.png'),
-        size=(500, 550)
-    )
-    fundo = ctk.CTkLabel(tela_aluno_ca , image=img_fundo, text='')
-    fundo.place(x=0, y=0)
-    
-    txt = ctk.CTkLabel(tela_aluno_ca,text='Insira seus dados')
-    txt.pack(padx=10, pady=10 )
-
-    nome = ctk.CTkEntry(tela_aluno_ca, placeholder_text='Nome')
-    nome.pack(padx=10, pady=10)
-    nascimento = ctk.CTkEntry(tela_aluno_ca, placeholder_text='Data de Nascimento')
-    nascimento.pack(padx=10, pady=10)
-    cpf = ctk.CTkEntry(tela_aluno_ca, placeholder_text='CPF')
-    cpf.pack(padx=10, pady=10)
-    contato = ctk.CTkEntry(tela_aluno_ca, placeholder_text='Telefone')
-    contato.pack(padx=10, pady=10)
-    endereco = ctk.CTkEntry(tela_aluno_ca, placeholder_text='Endereço')
-    endereco.pack(padx=10, pady=10)
-    senha = ctk.CTkEntry(tela_aluno_ca, placeholder_text='Senha', show='*')
-    senha.pack(padx=10, pady=10)
-
-    # 🔽 Lista de cursos disponíveis
-    cursos = adm.listar_cursos()
-    if not cursos:
-        cursos = ['Nenhum curso cadastrado']
-    curso_var = ctk.StringVar(value=cursos[0])
-    ctk.CTkLabel(tela_aluno_ca, text="Selecione o Curso").pack(pady=(10, 0))
-    menu_cursos = ctk.CTkOptionMenu(tela_aluno_ca, variable=curso_var, values=cursos)
-    menu_cursos.pack(padx=10, pady=10)
-
-    def aluno_cadastro():
-        aluno_nome = nome.get()
-        aluno_cpf = cpf.get()
-        aluno_contato = contato.get()
-        data_nascimento = nascimento.get()
-        aluno_endereco = endereco.get()
-        aluno_senha = senha.get()
-        aluno_curso = curso_var.get()
-
-        if not (aluno_nome and aluno_cpf and aluno_contato and data_nascimento and aluno_senha):
-            messagebox.showwarning("Atenção", "Preencha todos os campos!")
-            return
-        
-        # Salva o curso escolhido junto com os dados do aluno
-        aluno.cadastrar_aluno(aluno_nome, aluno_cpf, data_nascimento, aluno_endereco, aluno_contato, aluno_senha, aluno_curso)
-        messagebox.showinfo("Sucesso", f"Aluno '{aluno_nome}' cadastrado no curso '{aluno_curso}'!")
-
-        # Limpa os campos
-        nome.delete(0, "end")
-        cpf.delete(0, "end")
-        contato.delete(0, "end")
-        nascimento.delete(0, "end")
-        endereco.delete(0, "end")
-        senha.delete(0, "end")
-        curso_var.set(cursos[0])
-
-    btn_cadastrar = ctk.CTkButton(tela_aluno_ca, text="Cadastrar", command=aluno_cadastro)
-    btn_cadastrar.pack(pady=15)
-
-    tela_index = ctk.CTkButton(tela_aluno_ca, text="Index", command=lambda: index(tela_aluno_ca))
-    tela_index.pack(pady=15)
-    
-    tela_aluno_ca.mainloop()
-
-def tela_logar_aluno(tela_ant):
-
-
-
-    tela_ant.destroy()
-    logar_aluno =ctk.CTk()
-    logar_aluno.geometry('500x500')
-
-    img_fundo = ctk.CTkImage(
-        light_image=Image.open('img.png'),
-        dark_image=Image.open('img.png'),
-        size=(500, 500)
-    )
-    fundo = ctk.CTkLabel(logar_aluno , image=img_fundo, text='')
-    fundo.place(x=0, y=0)
-    
-    
-    Log_cpf =ctk.CTkEntry(logar_aluno, placeholder_text= 'cpf')
-    Log_cpf.pack(padx=10, pady=10)
-    log_senha =ctk.CTkEntry(logar_aluno, placeholder_text= 'senha' , show='*')
-    log_senha.pack(padx=10, pady=10)
-    def aluno_login():
-        aluno_senha = log_senha.get()
-        aluno_cpf = Log_cpf.get()
-
-
-        if not ( aluno_cpf and aluno_senha):
-            messagebox.showwarning("Atenção", "Preencha todos os campos!")
-            return
-    
-        logado_aluno =   aluno.logar_aluno(aluno_cpf,aluno_senha)
-    
-        if logado_aluno == 1 :
-            messagebox.showinfo('aaaaaa',f"Professor com cpf {aluno_cpf} nao encontrado")
-
-        elif logado_aluno == 2:
-            messagebox.showinfo('aaaaaaa',f" senha invalida")
-        
-        elif isinstance(logado_aluno, dict):
-            log_senha.delete(0, "end")
-            Log_cpf.delete(0, "end")    
-            logar_aluno.destroy()
-            tela_aluno_1(logado_aluno)
-            
-    
-    btn_logar_aluno =ctk.CTkButton(logar_aluno, text="logar", command=aluno_login)
-    btn_logar_aluno.pack(pady=15)
-    
-    btn_aluno_cadastro = ctk.CTkButton(logar_aluno, text="cadastrar", command=lambda :tela_aluno_cadastro(logar_aluno))
-    btn_aluno_cadastro.pack(pady=15)
-    tela_index =ctk.CTkButton(logar_aluno, text="index", command=lambda: index(logar_aluno))
-    tela_index.pack(pady=15)
-    logar_aluno.mainloop()
-
-
-
-def tela_cadastrar_curso(tela_ant):
-    tela_ant.destroy()
-    tela_curso = ctk.CTk()
-    tela_curso.geometry('500x500')
-
-    img_fundo = ctk.CTkImage(
-        light_image=Image.open('img.png'),
-        dark_image=Image.open('img.png'),
-        size=(500, 500)
-    )
-    fundo = ctk.CTkLabel(tela_curso, image=img_fundo, text='')
-    fundo.place(x=0, y=0)
-
-    txt = ctk.CTkLabel(tela_curso, text='Cadastro de Curso', font=('Arial', 18))
-    txt.pack(padx=10, pady=20)
-
-    nome_curso = ctk.CTkEntry(tela_curso, placeholder_text='Nome do Curso')
-    nome_curso.pack(padx=10, pady=10)
-
-    carga_hora = ctk.CTkEntry(tela_curso, placeholder_text='Carga Horária (em horas)')
-    carga_hora.pack(padx=10, pady=10)
-
-    coordenadores = adm.listar_coordenadores()
-    if not coordenadores:
-        coordenadores = ['Nenhum coordenador disponível']
-
-    coord_var = ctk.StringVar(value=coordenadores[0])
-    ctk.CTkLabel(tela_curso, text="Selecione o Coordenador").pack(pady=(10, 0))
-    menu_coord = ctk.CTkOptionMenu(tela_curso, variable=coord_var, values=coordenadores)
-    menu_coord.pack(padx=10, pady=10)
-
-    def cadastrar_curso():
-        nome = nome_curso.get()
-        coordenador = coord_var.get()
-        carga = carga_hora.get()
-
-        if not (nome and coordenador and carga):
-            messagebox.showwarning("Atenção", "Preencha todos os campos!")
-            return
-        
-        try:
-            adm.cadastrar_curso(nome, coordenador, carga)
-            messagebox.showinfo("Sucesso", f"Curso '{nome}' cadastrado com sucesso!")
-            nome_curso.delete(0, "end")
-            carga_hora.delete(0, "end")
-        except Exception as e:
-            messagebox.showerror("Erro", f"Ocorreu um erro: {e}")
-
-    btn_cadastrar = ctk.CTkButton(tela_curso, text="Cadastrar Curso", command=cadastrar_curso)
-    btn_cadastrar.pack(pady=20)
-
-    btn_voltar = ctk.CTkButton(tela_curso, text="Voltar", command=lambda: index(tela_curso))
-    btn_voltar.pack(pady=10)
-
-    tela_curso.mainloop()
-
-#tela_cadastrar_curso()
-
-def index(tela_ant=None):
-    if tela_ant:
-        tela_ant.destroy()    
-    
-
-    index =ctk.CTk()
-    index.geometry('500x500')
-
-    img_fundo = ctk.CTkImage(
-        light_image=Image.open('img.png'),
-        dark_image=Image.open('img.png'),
-        size=(500, 500)
-    )
-    fundo = ctk.CTkLabel(index , image=img_fundo, text='')
-    fundo.place(x=0, y=0)
-    
-    txt = ctk.CTkLabel(index , text='')
-    txt.pack(padx=10, pady=45 )
-    btn_professor  =ctk.CTkButton(index, text="professor", command=lambda: tela_logar_professor(index))
-    btn_professor.pack(pady=30)
-    btn_adm  =ctk.CTkButton(index, text="administração", command=lambda: tela_adm(index))
-    btn_adm.pack(pady=30)
-    btn_aluno = ctk.CTkButton(index,text='aluno', command=lambda: tela_logar_aluno(index) )
-    btn_aluno.pack(pady=30)
-    index.mainloop()
-
-def tela_aluno_1(logado_aluno):
-    tela = ctk.CTk()
-    tela.geometry("700x500")
-    tela.title(f"Aluno {logado_aluno['nome']}")
-
-    lbl = ctk.CTkLabel(tela, text=f"Bem-vindo(a), {logado_aluno['nome']}", font=("Arial", 16))
-    lbl.pack(pady=10)
-
-    atividades = aluno.ver_atividades(logado_aluno["nome"])
-
-    if not atividades:
-        ctk.CTkLabel(tela, text="Nenhuma atividade disponível.").pack(pady=20)
-    else:
-        for atv in atividades:
-            frame = ctk.CTkFrame(tela)
-            frame.pack(pady=10, padx=10, fill="x")
-
-            ctk.CTkLabel(frame, text=f"Professor: {atv['professor']}", font=("Arial", 12, "bold")).pack(anchor="w", padx=10)
-            ctk.CTkLabel(frame, text=f"Atividade:\n{atv['texto']}", wraplength=600, justify="left").pack(anchor="w", padx=20)
-
-            resposta_box = ctk.CTkTextbox(frame, width=600, height=80)
-            resposta_box.pack(padx=10, pady=5)
-
-            def enviar_resposta(atv_prof=atv["professor"], box=resposta_box):
-                resposta = box.get("1.0", "end").strip()
-                if resposta:
-                    aluno.enviar_resposta(logado_aluno["nome"], atv_prof, resposta)
-                    messagebox.showinfo("Sucesso", "Resposta enviada com sucesso!")
-                    tela.destroy()
-                    tela_aluno_1(logado_aluno)
-                else:
-                    messagebox.showwarning("Erro", "Digite uma resposta antes de enviar.")
-
-            btn_enviar = ctk.CTkButton(frame, text="Enviar Resposta", command=enviar_resposta)
-            btn_enviar.pack(pady=5)
-
-    tela.mainloop()
-
 def tela_ver_notas(tela_ant, logado_aluno):
     tela_ant.destroy()
     tela = ctk.CTk()
@@ -660,6 +359,335 @@ def tela_atribuir_nota(tela_ant, logado_profe):
     btn_voltar.pack(pady=15)
 
     tela.mainloop()
+
+
+
+
+# telas do aluno
+
+
+
+
+def tela_aluno_cadastro(tela_ant):
+    tela_ant.destroy()    
+    tela_aluno_ca = ctk.CTk() 
+    tela_aluno_ca.geometry('500x550')
+    
+    img_fundo = ctk.CTkImage(
+        light_image=Image.open('img.png'),
+        dark_image=Image.open('img.png'),
+        size=(500, 550)
+    )
+    fundo = ctk.CTkLabel(tela_aluno_ca , image=img_fundo, text='')
+    fundo.place(x=0, y=0)
+    
+    txt = ctk.CTkLabel(tela_aluno_ca,text='Insira seus dados')
+    txt.pack(padx=10, pady=10 )
+
+    nome = ctk.CTkEntry(tela_aluno_ca, placeholder_text='Nome')
+    nome.pack(padx=10, pady=10)
+    nascimento = ctk.CTkEntry(tela_aluno_ca, placeholder_text='Data de Nascimento')
+    nascimento.pack(padx=10, pady=10)
+    cpf = ctk.CTkEntry(tela_aluno_ca, placeholder_text='CPF')
+    cpf.pack(padx=10, pady=10)
+    contato = ctk.CTkEntry(tela_aluno_ca, placeholder_text='Telefone')
+    contato.pack(padx=10, pady=10)
+    endereco = ctk.CTkEntry(tela_aluno_ca, placeholder_text='Endereço')
+    endereco.pack(padx=10, pady=10)
+    senha = ctk.CTkEntry(tela_aluno_ca, placeholder_text='Senha', show='*')
+    senha.pack(padx=10, pady=10)
+
+
+    cursos = adm.listar_cursos()
+    if not cursos:
+        cursos = ['Nenhum curso cadastrado']
+    curso_var = ctk.StringVar(value=cursos[0])
+    ctk.CTkLabel(tela_aluno_ca, text="Selecione o Curso").pack(pady=(10, 0))
+    menu_cursos = ctk.CTkOptionMenu(tela_aluno_ca, variable=curso_var, values=cursos)
+    menu_cursos.pack(padx=10, pady=10)
+
+    def aluno_cadastro():
+        aluno_nome = nome.get()
+        aluno_cpf = cpf.get()
+        aluno_contato = contato.get()
+        data_nascimento = nascimento.get()
+        aluno_endereco = endereco.get()
+        aluno_senha = senha.get()
+        aluno_curso = curso_var.get()
+
+        if not (aluno_nome and aluno_cpf and aluno_contato and data_nascimento and aluno_senha):
+            messagebox.showwarning("Atenção", "Preencha todos os campos!")
+            return
+      
+        aluno.cadastrar_aluno(aluno_nome, aluno_cpf, data_nascimento, aluno_endereco, aluno_contato, aluno_senha, aluno_curso)
+        messagebox.showinfo("Sucesso", f"Aluno '{aluno_nome}' cadastrado no curso '{aluno_curso}'!")
+
+        nome.delete(0, "end")
+        cpf.delete(0, "end")
+        contato.delete(0, "end")
+        nascimento.delete(0, "end")
+        endereco.delete(0, "end")
+        senha.delete(0, "end")
+        curso_var.set(cursos[0])
+
+    btn_cadastrar = ctk.CTkButton(tela_aluno_ca, text="Cadastrar", command=aluno_cadastro)
+    btn_cadastrar.pack(pady=15)
+
+    tela_index = ctk.CTkButton(tela_aluno_ca, text="Index", command=lambda: index(tela_aluno_ca))
+    tela_index.pack(pady=15)
+    
+    tela_aluno_ca.mainloop()
+
+def tela_logar_aluno(tela_ant):
+
+
+
+    tela_ant.destroy()
+    logar_aluno =ctk.CTk()
+    logar_aluno.geometry('500x500')
+
+    img_fundo = ctk.CTkImage(
+        light_image=Image.open('img.png'),
+        dark_image=Image.open('img.png'),
+        size=(500, 500)
+    )
+    fundo = ctk.CTkLabel(logar_aluno , image=img_fundo, text='')
+    fundo.place(x=0, y=0)
+    
+    
+    Log_cpf =ctk.CTkEntry(logar_aluno, placeholder_text= 'cpf')
+    Log_cpf.pack(padx=10, pady=10)
+    log_senha =ctk.CTkEntry(logar_aluno, placeholder_text= 'senha' , show='*')
+    log_senha.pack(padx=10, pady=10)
+    def aluno_login():
+        aluno_senha = log_senha.get()
+        aluno_cpf = Log_cpf.get()
+
+
+        if not ( aluno_cpf and aluno_senha):
+            messagebox.showwarning("Atenção", "Preencha todos os campos!")
+            return
+    
+        logado_aluno =   aluno.logar_aluno(aluno_cpf,aluno_senha)
+    
+        if logado_aluno == 1 :
+            messagebox.showinfo('aaaaaa',f"Professor com cpf {aluno_cpf} nao encontrado")
+
+        elif logado_aluno == 2:
+            messagebox.showinfo('aaaaaaa',f" senha invalida")
+        
+        elif isinstance(logado_aluno, dict):
+            log_senha.delete(0, "end")
+            Log_cpf.delete(0, "end")    
+            logar_aluno.destroy()
+            tela_aluno_1(logado_aluno)
+            
+    
+    btn_logar_aluno =ctk.CTkButton(logar_aluno, text="logar", command=aluno_login)
+    btn_logar_aluno.pack(pady=15)
+    
+    btn_aluno_cadastro = ctk.CTkButton(logar_aluno, text="cadastrar", command=lambda :tela_aluno_cadastro(logar_aluno))
+    btn_aluno_cadastro.pack(pady=15)
+    tela_index =ctk.CTkButton(logar_aluno, text="index", command=lambda: index(logar_aluno))
+    tela_index.pack(pady=15)
+    logar_aluno.mainloop()
+
+
+
+def tela_aluno_1(logado_aluno):
+    tela = ctk.CTk()
+    tela.geometry("700x500")
+    tela.title(f"Aluno {logado_aluno['nome']}")
+
+    lbl = ctk.CTkLabel(tela, text=f"Bem-vindo(a), {logado_aluno['nome']}", font=("Arial", 16))
+    lbl.pack(pady=10)
+
+    atividades = aluno.ver_atividades(logado_aluno["nome"])
+
+    if not atividades:
+        ctk.CTkLabel(tela, text="Nenhuma atividade disponível.").pack(pady=20)
+    else:
+        for atv in atividades:
+            frame = ctk.CTkFrame(tela)
+            frame.pack(pady=10, padx=10, fill="x")
+
+            ctk.CTkLabel(frame, text=f"Professor: {atv['professor']}", font=("Arial", 12, "bold")).pack(anchor="w", padx=10)
+            ctk.CTkLabel(frame, text=f"Atividade:\n{atv['texto']}", wraplength=600, justify="left").pack(anchor="w", padx=20)
+
+            resposta_box = ctk.CTkTextbox(frame, width=600, height=80)
+            resposta_box.pack(padx=10, pady=5)
+
+            def enviar_resposta(atv_prof=atv["professor"], box=resposta_box):
+                resposta = box.get("1.0", "end").strip()
+                if resposta:
+                    aluno.enviar_resposta(logado_aluno["nome"], atv_prof, resposta)
+                    messagebox.showinfo("Sucesso", "Resposta enviada com sucesso!")
+                    tela.destroy()
+                    tela_aluno_1(logado_aluno)
+                else:
+                    messagebox.showwarning("Erro", "Digite uma resposta antes de enviar.")
+
+            btn_enviar = ctk.CTkButton(frame, text="Enviar Resposta", command=enviar_resposta)
+            btn_enviar.pack(pady=5)
+
+    tela.mainloop()
+    
+    
+    
+    
+    #telas adm  
+    
+    
+    
+
+
+def tela_adm(tela_ant):
+    tela_ant.destroy()
+    tela_adm = ctk.CTk() 
+    tela_adm.geometry('500x500')
+
+    img_fundo = ctk.CTkImage(
+        light_image=Image.open('img.png'),
+        dark_image=Image.open('img.png'),
+        size=(500, 500)
+    )
+    fundo = ctk.CTkLabel(tela_adm , image=img_fundo, text='')
+    fundo.place(x=0, y=0)
+    
+    nome = ctk.CTkEntry(tela_adm, placeholder_text='Nome do Professor')
+    nome.pack(padx=10, pady=10)
+
+    cpf = ctk.CTkEntry(tela_adm, placeholder_text='CPF do Professor')
+    cpf.pack(padx=10, pady=10)
+
+    ctk.CTkLabel(tela_adm, text="É Coordenador?").pack(pady=(10, 0))
+    var_coord = ctk.BooleanVar(value=False)
+    switch_coord = ctk.CTkSwitch(
+        tela_adm, text="Coordenador", variable=var_coord,
+        onvalue=True, offvalue=False
+    )
+    switch_coord.pack(pady=10)
+
+    def cadastro_cpf_prof():
+        nome_profe = nome.get()
+        profe_cpf = cpf.get()
+        is_coord = var_coord.get()
+
+        if not (nome_profe and profe_cpf):
+            messagebox.showwarning("Atenção", "Preencha todos os campos!")
+            return
+        
+        adm.cadastrar_professor_cpf(nome_profe, profe_cpf, is_coord)
+        messagebox.showinfo("Sucesso", f"Professor '{nome_profe}' cadastrado! Coordenador: {is_coord}")
+
+        nome.delete(0, "end")
+        cpf.delete(0, "end")
+        var_coord.set(False)
+
+    btn_cpf_prof = ctk.CTkButton(tela_adm, text="Cadastrar Professor", command=cadastro_cpf_prof)
+    btn_cpf_prof.pack(pady=15)
+
+    btn_cadastrar_curso = ctk.CTkButton(tela_adm,text="Cadastrar Curso",command=lambda: tela_cadastrar_curso(tela_adm))
+    btn_cadastrar_curso.pack(pady=10)
+
+    tela_index = ctk.CTkButton(tela_adm, text="Voltar", command=lambda: index(tela_adm))
+    tela_index.pack(pady=15)
+
+    tela_adm.mainloop()
+    
+    
+
+
+def tela_cadastrar_curso(tela_ant):
+    tela_ant.destroy()
+    tela_curso = ctk.CTk()
+    tela_curso.geometry('500x500')
+
+    img_fundo = ctk.CTkImage(
+        light_image=Image.open('img.png'),
+        dark_image=Image.open('img.png'),
+        size=(500, 500)
+    )
+    fundo = ctk.CTkLabel(tela_curso, image=img_fundo, text='')
+    fundo.place(x=0, y=0)
+
+    txt = ctk.CTkLabel(tela_curso, text='Cadastro de Curso', font=('Arial', 18))
+    txt.pack(padx=10, pady=20)
+
+    nome_curso = ctk.CTkEntry(tela_curso, placeholder_text='Nome do Curso')
+    nome_curso.pack(padx=10, pady=10)
+
+    carga_hora = ctk.CTkEntry(tela_curso, placeholder_text='Carga Horária (em horas)')
+    carga_hora.pack(padx=10, pady=10)
+
+    coordenadores = adm.listar_coordenadores()
+    if not coordenadores:
+        coordenadores = ['Nenhum coordenador disponível']
+
+    coord_var = ctk.StringVar(value=coordenadores[0])
+    ctk.CTkLabel(tela_curso, text="Selecione o Coordenador").pack(pady=(10, 0))
+    menu_coord = ctk.CTkOptionMenu(tela_curso, variable=coord_var, values=coordenadores)
+    menu_coord.pack(padx=10, pady=10)
+
+    def cadastrar_curso():
+        nome = nome_curso.get()
+        coordenador = coord_var.get()
+        carga = carga_hora.get()
+
+        if not (nome and coordenador and carga):
+            messagebox.showwarning("Atenção", "Preencha todos os campos!")
+            return
+        
+        try:
+            adm.cadastrar_curso(nome, coordenador, carga)
+            messagebox.showinfo("Sucesso", f"Curso '{nome}' cadastrado com sucesso!")
+            nome_curso.delete(0, "end")
+            carga_hora.delete(0, "end")
+        except Exception as e:
+            messagebox.showerror("Erro", f"Ocorreu um erro: {e}")
+
+    btn_cadastrar = ctk.CTkButton(tela_curso, text="Cadastrar Curso", command=cadastrar_curso)
+    btn_cadastrar.pack(pady=20)
+
+    btn_voltar = ctk.CTkButton(tela_curso, text="Voltar", command=lambda: index(tela_curso))
+    btn_voltar.pack(pady=10)
+
+    tela_curso.mainloop()
+
+
+
+
+
+
+
+
+
+
+def index(tela_ant=None):
+    if tela_ant:
+        tela_ant.destroy()    
+    
+
+    index =ctk.CTk()
+    index.geometry('500x500')
+
+    img_fundo = ctk.CTkImage(
+        light_image=Image.open('img.png'),
+        dark_image=Image.open('img.png'),
+        size=(500, 500)
+    )
+    fundo = ctk.CTkLabel(index , image=img_fundo, text='')
+    fundo.place(x=0, y=0)
+    
+    txt = ctk.CTkLabel(index , text='')
+    txt.pack(padx=10, pady=45 )
+    btn_professor  =ctk.CTkButton(index, text="professor", command=lambda: tela_logar_professor(index))
+    btn_professor.pack(pady=30)
+    btn_adm  =ctk.CTkButton(index, text="administração", command=lambda: tela_adm(index))
+    btn_adm.pack(pady=30)
+    btn_aluno = ctk.CTkButton(index,text='aluno', command=lambda: tela_logar_aluno(index) )
+    btn_aluno.pack(pady=30)
+    index.mainloop()
 
 
 #tela_professor_1('dsfdfdf')
