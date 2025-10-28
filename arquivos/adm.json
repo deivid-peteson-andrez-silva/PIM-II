@@ -8,32 +8,65 @@
             "coordenador": true
         },
         {
-            "nome": "adasd",
-            "cpf": "111",
+            "nome": "peterson",
+            "cpf": "123",
+            "coordenador": false
+        },
+        {
+            "nome": "222",
+            "cpf": "222",
             "coordenador": false
         }
     ],
     "curso_diciplina": [
         {
-            "nome_curso": "aaa",
+            "nome_curso": "curso",
             "professor_coordenador": "deivid",
-            "curso_carga_hora": "aaa",
+            "curso_carga_hora": "123",
             "atividades": [
                 {
                     "professor": "deivid",
-                    "texto": "aaaaaaaaaaaaaaaaaaaaaa\naaaaaaaaaa\naaaaaaaaaaaaaaaaaaaaa\naaaa\naaaaaaaaaaa\naaaa"
+                    "texto": "adividadde1\nsdad\nsd\n\nd\nsd\ns"
                 },
                 {
                     "professor": "deivid",
-                    "texto": "bbbbbbbbbbbbbbbbbbb\nbbbbbbbbb\nb\nbbbbbbbbbbbbbbbb\nbbbbbbbb"
+                    "texto": "adividade2\n\n\n432\n4\n234\n23\n4"
                 },
                 {
-                    "professor": "asdad",
-                    "texto": "cccccccccccccccccccccccc\ncccccccccccccccccc\nccccccccccccccccc"
+                    "professor": "deivid",
+                    "texto": "adividded3\n\nf\nsdf\nfdfdf"
                 },
                 {
-                    "professor": "asdad",
-                    "texto": "111111111111111111111111\n1111111111111111\n111\n\n1111"
+                    "professor": "deivid",
+                    "texto": "adivi4 \n\nf\n\nf\ndsfs"
+                },
+                {
+                    "professor": "deivid",
+                    "texto": "adivief5as\nd\nas\nda\nda"
+                },
+                {
+                    "professor": "deivid",
+                    "texto": "666666666666666666666666666666666"
+                },
+                {
+                    "professor": "deivid",
+                    "texto": "888888888"
+                },
+                {
+                    "professor": "deivid",
+                    "texto": "77777777777"
+                },
+                {
+                    "professor": "deivid",
+                    "texto": "2323232323232"
+                },
+                {
+                    "professor": "peterson",
+                    "texto": "21313123123"
+                },
+                {
+                    "professor": "peterson",
+                    "texto": "4545454545"
                 }
             ]
         }

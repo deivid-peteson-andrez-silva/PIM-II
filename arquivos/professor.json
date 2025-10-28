@@ -3,29 +3,36 @@
         "professor_nome": "deivid",
         "professor_cpf": "123",
         "professor_contato": "123",
-        "professor_diciplina": "aaa",
-        "professor_senha": "$2b$12$EkuwTHyfAdX7HCeSsCHvA.kArAbgZcFRaPwHE3idcDYptlAEFAsdC",
+        "professor_diciplina": "curso",
+        "professor_senha": "$2b$12$GTwlNYNXT68XGZ932NPuOOb4G1C/a8EayYHGKDqSZFbtI4x5QdTrC",
         "atividades": [
-            "aaaaaaaaaaaaaaaaaaaaaa\naaaaaaaaaa\naaaaaaaaaaaaaaaaaaaaa\naaaa\naaaaaaaaaaa\naaaa",
-            "bbbbbbbbbbbbbbbbbbb\nbbbbbbbbb\nb\nbbbbbbbbbbbbbbbb\nbbbbbbbb"
+            "adividadde1\nsdad\nsd\n\nd\nsd\ns",
+            "adividade2\n\n\n432\n4\n234\n23\n4",
+            "adividded3\n\nf\nsdf\nfdfdf",
+            "adivi4 \n\nf\n\nf\ndsfs",
+            "adivief5as\nd\nas\nda\nda",
+            "666666666666666666666666666666666",
+            "888888888",
+            "77777777777",
+            "2323232323232"
         ]
     },
     {
-        "professor_nome": "asdad",
-        "professor_cpf": "111",
-        "professor_contato": "111",
-        "professor_diciplina": "aaa",
-        "professor_senha": "$2b$12$/tqtjx1n7GDNc/PXiu1p/eKQzwUfLYSTLoGsvnCg4EzMGYGTcHkpK",
-        "atividades": [
-            "cccccccccccccccccccccccc\ncccccccccccccccccc\nccccccccccccccccc",
-            "111111111111111111111111\n1111111111111111\n111\n\n1111"
-        ]
-    },
-    {
-        "professor_nome": "EE",
+        "professor_nome": "peterson",
         "professor_cpf": "123",
-        "professor_contato": "123",
-        "professor_diciplina": "aaa",
-        "professor_senha": "$2b$12$5AIpsltt5kGYGiDNWThMeONENPQBkHWHHxHychmFIysvPfY/G2GvG"
+        "professor_contato": "111",
+        "professor_diciplina": "curso",
+        "professor_senha": "$2b$12$Qq64wIEiwIaip33sht1Hb.3R1MWUj27aIcZx34Yd5mm7XnCFaEfne",
+        "atividades": [
+            "21313123123",
+            "4545454545"
+        ]
+    },
+    {
+        "professor_nome": "peterson",
+        "professor_cpf": "222",
+        "professor_contato": "222",
+        "professor_diciplina": "curso",
+        "professor_senha": "$2b$12$eQ5btjtgJJVEp609SIANle52pF86NDTQiWVB5qvOaYMBPzkCxBaOa"
     }
 ]

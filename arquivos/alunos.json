@@ -5,29 +5,111 @@
         "data_nascimento": "123",
         "endereco": "123",
         "telefone": "123",
-        "curso": "aaa",
-        "senha": "$2b$12$TRrwDjoJBBOd2u94f11cROV7s/nCjS6mYubc36FM/Q8p5XqrK2tia"
-    },
-    {
-        "nome": "aaaaaa",
-        "cpf": "111",
-        "data_nascimento": "123",
-        "endereco": "111",
-        "telefone": "111",
-        "curso": "aaa",
-        "senha": "$2b$12$7hxD7UYhRCXSc3bPNoRkYejHevIkZQooRbh9TiKg3uv1efarOzn/e",
+        "curso": "curso",
+        "senha": "$2b$12$hrPQdC12UartE3I7ouR/N.PO4qT6.CbP0ftqdGlTEvWlA1puJ19ay",
         "respostas": [
             {
                 "professor": "deivid",
-                "resposta": "11111"
+                "resposta": "1111",
+                "atividade": "adividade2\n\n\n432\n4\n234\n23\n4",
+                "nota": 1.0,
+                "corrigida": true
             },
             {
                 "professor": "deivid",
-                "resposta": "2222"
+                "resposta": "3333",
+                "atividade": "adividded3\n\nf\nsdf\nfdfdf",
+                "nota": 1.0,
+                "corrigida": true
             },
             {
-                "professor": "asdad",
-                "resposta": "3333"
+                "professor": "deivid",
+                "resposta": "444444",
+                "atividade": "adivi4 \n\nf\n\nf\ndsfs",
+                "nota": 1.0,
+                "corrigida": true
+            },
+            {
+                "professor": "deivid",
+                "resposta": "3323232323",
+                "atividade": "adivief5as\nd\nas\nda\nda",
+                "nota": 2.0,
+                "corrigida": true
+            },
+            {
+                "professor": "deivid",
+                "resposta": "6",
+                "atividade": "666666666666666666666666666666666",
+                "nota": 1.0,
+                "corrigida": true
+            },
+            {
+                "professor": "deivid",
+                "resposta": "232323",
+                "atividade": "77777777777",
+                "nota": 6.0,
+                "corrigida": true
+            },
+            {
+                "professor": "deivid",
+                "resposta": "33333333333333333",
+                "atividade": "adividadde1\nsdad\nsd\n\nd\nsd\ns",
+                "nota": 2.0,
+                "corrigida": true
+            },
+            {
+                "professor": "peterson",
+                "resposta": "urtuu",
+                "atividade": "21313123123",
+                "nota": 6.0,
+                "corrigida": true
+            },
+            {
+                "professor": "peterson",
+                "resposta": "reyrey",
+                "atividade": "4545454545",
+                "nota": 9.0,
+                "corrigida": true
+            }
+        ],
+        "notas": [
+            {
+                "professor": "deivid",
+                "atividade": "adividade2\n\n\n432\n4\n234\n23\n4",
+                "resposta": "22222",
+                "nota": "2"
+            },
+            {
+                "professor": "deivid",
+                "atividade": "adividadde1\nsdad\nsd\n\nd\nsd\ns",
+                "resposta": "11111",
+                "nota": "1"
+            },
+            {
+                "professor": "deivid",
+                "atividade": "adividded3\n\nf\nsdf\nfdfdf",
+                "resposta": "33333",
+                "nota": "3"
+            },
+            {
+                "professor": "deivid",
+                "atividade": "adividadde1\nsdad\nsd\n\nd\nsd\ns",
+                "nota": 2.0
+            },
+            {
+                "professor": "deivid",
+                "atividade": "77777777777",
+                "nota": 6.0
+            },
+            {
+                "professor": "peterson",
+                "atividade": "21313123123",
+                "nota": 6.0
+            },
+            {
+                "professor": "peterson",
+                "atividade": "4545454545",
+                "nota": 9.0
             }
         ]
     }
