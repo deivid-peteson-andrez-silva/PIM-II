@@ -9,6 +9,8 @@ aluno = Aluno()
 from PIL import Image
 import json      
 import os  
+from mensagens import obter_mensagem_por_nota
+
 
 
 
@@ -19,19 +21,36 @@ ctk.set_appearance_mode('dark')
 ctk.set_default_color_theme("dark-blue")
 
 
+from PIL import Image, ImageTk
+
+def criar_fundo_responsivo(tela, caminho_imagem):
+    """
+    Adiciona um fundo responsivo a qualquer CTk janela.
+    """
+    img_original = Image.open(caminho_imagem)
+
+    label_fundo = ctk.CTkLabel(tela, text="")
+    label_fundo.place(x=0, y=0, relwidth=1, relheight=1)
+
+    def redimensionar(event):
+        largura = event.width
+        altura = event.height
+        img_resized = img_original.resize((largura, altura))
+        img_tk = ImageTk.PhotoImage(img_resized)
+        label_fundo.configure(image=img_tk)
+        label_fundo.image = img_tk  # mantém referência
+
+    tela.bind("<Configure>", redimensionar)
+    return label_fundo
+
+
 def tela_profe_cadastro(tela_ant):    
     tela_ant.destroy()
     cadastro = ctk.CTk()
     cadastro.geometry('500x550')
 
-    img_fundo = ctk.CTkImage(
-        light_image=Image.open('img.png'),
-        dark_image=Image.open('img.png'),
-        size=(500, 550)
-    )
-    fundo = ctk.CTkLabel(cadastro, image=img_fundo, text='')
-    fundo.place(x=0, y=0)
-    
+    criar_fundo_responsivo(cadastro, "img.png")
+
     txt = ctk.CTkLabel(cadastro, text='Insira seus dados')
     txt.pack(padx=10, pady=10)
 
@@ -93,13 +112,8 @@ def tela_logar_professor(tela_ant):
     logar_professor =ctk.CTk()
     logar_professor.geometry('500x500')
 
-    img_fundo = ctk.CTkImage(
-        light_image=Image.open('img.png'),
-        dark_image=Image.open('img.png'),
-        size=(500, 500)
-    )
-    fundo = ctk.CTkLabel(logar_professor , image=img_fundo, text='')
-    fundo.place(x=0, y=0)
+    criar_fundo_responsivo(logar_professor, "img.png")
+
     
     
     Log_cpf =ctk.CTkEntry(logar_professor, placeholder_text= 'cpf')
@@ -145,6 +159,7 @@ def tela_logar_professor(tela_ant):
 def tela_professor_1(logado_profe):
     tela = ctk.CTk()
     tela.geometry("700x500")
+    criar_fundo_responsivo(tela, "img.png")
     tela.title(f"Professor {logado_profe['professor_nome']}")
 
     lbl = ctk.CTkLabel(tela, text=f"Bem-vindo(a), {logado_profe['professor_nome']}", font=("Arial", 16))
@@ -161,42 +176,18 @@ def tela_professor_1(logado_profe):
 
 
 
-# tela altera
-def tela_prof_altera(tela_ant,logado_profe):
-   # tela_ant.after(100, tela_ant.destroy)
-    tela_alterar_prof =ctk.CTk()
-    tela_alterar_prof.geometry('500x500')
 
 
-    img_fundo = ctk.CTkImage(
-        light_image=Image.open('img.png'),
-        dark_image=Image.open('img.png'),
-        size=(500, 500)
-    )
-    fundo = ctk.CTkLabel(tela_alterar_prof , image=img_fundo, text='')
-    fundo.place(x=0, y=0)
-
-    texto = ctk.CTkLabel(tela_alterar_prof, text=f"Professor {logado_profe['professor_nome']}", font=("Arial", 10))
-    texto.pack(pady=50) 
-    nome_al =ctk.CTkEntry(tela_alterar_prof, placeholder_text= 'nome')
-    nome_al.pack(padx=10, pady=10)
-    
-    def alterar():
-        novo_nome = nome_al.get()
-        if novo_nome.strip():
-            professor.alterar(logado_profe, novo_nome)
-            messagebox.showinfo("Sucesso", f"Nome alterado para {novo_nome}")
-            texto.configure(text=f"Professor {novo_nome}")  # Atualiza o label
-            nome_al.delete(0, "end")
-
-    tela_alterar_prof.mainloop()
     
 def tela_atividade_prof(tela_ant, logado_profe):
     tela_ant.destroy()  # destrói a tela anterior
     tela = ctk.CTk()
     tela.geometry("600x500")
     tela.title("Nova Atividade")
+    
+    criar_fundo_responsivo(tela, "img.png")
 
+    
     lbl = ctk.CTkLabel(tela, text="Digite o enunciado da atividade:", font=("Arial", 14))
     lbl.pack(pady=10)
 
@@ -227,7 +218,6 @@ def tela_atividade_prof(tela_ant, logado_profe):
     
     
 def tela_corrigir(tela_ant, prof_logado):
-    # fecha a tela anterior (como nas suas outras telas)
     try:
         tela_ant.destroy()
     except:
@@ -235,10 +225,14 @@ def tela_corrigir(tela_ant, prof_logado):
 
     tela = ctk.CTk()
     tela.geometry("820x600")
+    criar_fundo_responsivo(tela, "img.png")
     tela.title(f"Corrigir Respostas - {prof_logado['professor_nome']}")
 
-    ctk.CTkLabel(tela, text=f"Correção de Respostas - Professor {prof_logado['professor_nome']}",
-                 font=("Arial", 18, "bold")).pack(pady=12)
+    ctk.CTkLabel(
+        tela,
+        text=f"Correção de Respostas - Professor {prof_logado['professor_nome']}",
+        font=("Arial", 18, "bold")
+    ).pack(pady=12)
 
     caminho = "arquivos/alunos.json"
     if not os.path.exists(caminho):
@@ -247,7 +241,7 @@ def tela_corrigir(tela_ant, prof_logado):
         tela.mainloop()
         return
 
-    # carregar alunos atualizados
+    # Carregar alunos
     with open(caminho, "r", encoding="utf-8") as arq:
         try:
             alunos = json.load(arq)
@@ -264,7 +258,6 @@ def tela_corrigir(tela_ant, prof_logado):
                     "resposta": r.get("resposta")
                 })
 
-    # scrollable frame (ctk)
     frame_scroll = ctk.CTkScrollableFrame(tela, width=780, height=420)
     frame_scroll.pack(padx=15, pady=10, fill="both", expand=True)
 
@@ -281,26 +274,32 @@ def tela_corrigir(tela_ant, prof_logado):
             ctk.CTkLabel(bloco, text=f"Atividade:\n{item['atividade']}", wraplength=740, justify="left").pack(anchor="w", padx=12)
             ctk.CTkLabel(bloco, text=f"Resposta:\n{item['resposta']}", wraplength=740, justify="left", text_color="#bfbfbf").pack(anchor="w", padx=12, pady=(6,4))
 
+            # Entrada da nota
             linha_nota = ctk.CTkFrame(bloco)
             linha_nota.pack(anchor="w", padx=12, pady=6)
             ctk.CTkLabel(linha_nota, text="Nota (0-10):", font=("Arial", 11)).pack(side="left", padx=(0,6))
             entrada_nota = ctk.CTkEntry(linha_nota, placeholder_text="ex: 8.5", width=120)
             entrada_nota.pack(side="left")
 
+            # Entrada da mensagem opcional
+            ctk.CTkLabel(bloco, text="Mensagem para o aluno (opcional):", font=("Arial", 11)).pack(anchor="w", padx=12, pady=(6,2))
+            entrada_msg = ctk.CTkEntry(bloco, placeholder_text="Digite uma mensagem ou deixe vazio para automática", width=600)
+            entrada_msg.pack(anchor="w", padx=12, pady=(0,6))
+
             entradas_notas.append({
                 "aluno": item["aluno"],
                 "atividade": item["atividade"],
-                "entry": entrada_nota
+                "entry": entrada_nota,
+                "mensagem": entrada_msg
             })
 
-    # função que salva notas e marca corrigida, além de adicionar em aluno["notas"]
     def salvar_notas():
         nonlocal alunos
         if not entradas_notas:
             messagebox.showinfo("Aviso", "Não há respostas para corrigir.")
             return
 
-        # recarrega para garantir dados atualizados
+        # Recarregar alunos para garantir atualização
         with open(caminho, "r", encoding="utf-8") as arq:
             try:
                 alunos = json.load(arq)
@@ -311,9 +310,8 @@ def tela_corrigir(tela_ant, prof_logado):
         for item in entradas_notas:
             valor = item["entry"].get().strip()
             if valor == "":
-                continue  # pular entradas vazias
+                continue
 
-            # validação da nota
             try:
                 nota_val = float(valor)
                 if not (0 <= nota_val <= 10):
@@ -322,44 +320,41 @@ def tela_corrigir(tela_ant, prof_logado):
                 messagebox.showwarning("Erro", f"Nota inválida para {item['aluno']}. Use número entre 0 e 10.")
                 return
 
-            # procura o aluno e a resposta específica
+            # Mensagem: se o professor digitou, usa; senão automática
+            msg = item["mensagem"].get().strip()
+            if not msg:
+                from mensagens import obter_mensagem_por_nota
+                msg = obter_mensagem_por_nota(nota_val)
+
+            # Atualiza aluno
             for a in alunos:
                 if a.get("nome") == item["aluno"]:
-                    # garante chave notas
                     if "notas" not in a:
                         a["notas"] = []
-                    # percorre respostas para marcar e salvar
-                    encontrou = False
                     for r in a.get("respostas", []):
                         if r.get("atividade") == item["atividade"] and r.get("professor") == prof_logado["professor_nome"] and not r.get("corrigida", False):
-                            # registra nota na resposta e marca corrigida
                             r["nota"] = nota_val
                             r["corrigida"] = True
-                            encontrou = True
-                            alterou = True
-                            # adiciona também ao histórico de notas do aluno
+                            r["mensagem"] = msg
                             a["notas"].append({
                                 "professor": prof_logado["professor_nome"],
                                 "atividade": item["atividade"],
-                                "nota": nota_val
+                                "nota": nota_val,
+                                "mensagem": msg
                             })
+                            alterou = True
                             break
-                    # se desejar, poderia remover respostas antigas, mas aqui apenas marcamos
-                    if encontrou:
-                        break
+                    break
 
         if alterou:
-            # salva tudo de uma vez
             with open(caminho, "w", encoding="utf-8") as arq:
                 json.dump(alunos, arq, indent=4, ensure_ascii=False)
-            messagebox.showinfo("Sucesso", "Notas salvas com sucesso!")
-            # fecha e volta para tela do professor (como no seu fluxo)
+            messagebox.showinfo("Sucesso", "Notas e mensagens salvas com sucesso!")
             tela.destroy()
             tela_professor_1(prof_logado)
         else:
             messagebox.showinfo("Aviso", "Nenhuma nota foi atribuída.")
 
-    # botões finais
     botoes = ctk.CTkFrame(tela)
     botoes.pack(pady=10)
 
@@ -371,11 +366,13 @@ def tela_corrigir(tela_ant, prof_logado):
 
 
 
+
 def tela_atribuir_nota(tela_ant, logado_profe):
     tela_ant.destroy()
     tela = ctk.CTk()
     tela.geometry("700x500")
     tela.title("Atribuir Nota")
+    criar_fundo_responsivo(tela, "img.png")
 
     ctk.CTkLabel(tela, text="Atribuir Nota a um Aluno", font=("Arial", 16)).pack(pady=15)
 
@@ -442,13 +439,8 @@ def tela_aluno_cadastro(tela_ant):
     tela_aluno_ca = ctk.CTk() 
     tela_aluno_ca.geometry('500x550')
     
-    img_fundo = ctk.CTkImage(
-        light_image=Image.open('img.png'),
-        dark_image=Image.open('img.png'),
-        size=(500, 550)
-    )
-    fundo = ctk.CTkLabel(tela_aluno_ca , image=img_fundo, text='')
-    fundo.place(x=0, y=0)
+    criar_fundo_responsivo(tela_aluno_ca, "img.png")
+
     
     txt = ctk.CTkLabel(tela_aluno_ca,text='Insira seus dados')
     txt.pack(padx=10, pady=10 )
@@ -515,13 +507,8 @@ def tela_logar_aluno(tela_ant):
     logar_aluno =ctk.CTk()
     logar_aluno.geometry('500x500')
 
-    img_fundo = ctk.CTkImage(
-        light_image=Image.open('img.png'),
-        dark_image=Image.open('img.png'),
-        size=(500, 500)
-    )
-    fundo = ctk.CTkLabel(logar_aluno , image=img_fundo, text='')
-    fundo.place(x=0, y=0)
+    criar_fundo_responsivo(logar_aluno, "img.png")
+
     
     
     Log_cpf =ctk.CTkEntry(logar_aluno, placeholder_text= 'cpf')
@@ -569,6 +556,7 @@ def tela_aluno_principal(logado_aluno):
     tela.title(f"Aluno {logado_aluno['nome']}")
 
     ctk.CTkLabel(tela, text=f"Bem-vindo(a), {logado_aluno['nome']}", font=("Arial", 16)).pack(pady=20)
+    criar_fundo_responsivo(tela, "img.png")
 
     # Botão para fazer atividade
     btn_atividade = ctk.CTkButton(
@@ -586,6 +574,12 @@ def tela_aluno_principal(logado_aluno):
     )
     btn_media.pack(pady=20)
 
+    btn_ver_notas = ctk.CTkButton(
+        tela,
+        text="Ver Notas Detalhadas",
+        command=lambda: [tela.destroy(), tela_aluno_ver_notas_atividades(logado_aluno)]
+    )
+    btn_ver_notas.pack(pady=20)
     # Botão voltar para index
     btn_voltar = ctk.CTkButton(
         tela,
@@ -597,14 +591,13 @@ def tela_aluno_principal(logado_aluno):
     tela.mainloop()
 
 def tela_media_notas(logado_aluno):
-    
-
     aluno_obj = Aluno()
     medias = aluno_obj.calcular_media(logado_aluno["nome"])
 
     tela = ctk.CTk()
-    tela.geometry("500x400")
+    tela.geometry("500x500")
     tela.title(f"Média das Notas - {logado_aluno['nome']}")
+    criar_fundo_responsivo(tela, "img.png")
 
     ctk.CTkLabel(tela, text="Média das Notas por Professor", font=("Arial", 16)).pack(pady=20)
 
@@ -612,7 +605,18 @@ def tela_media_notas(logado_aluno):
         ctk.CTkLabel(tela, text="Nenhuma nota registrada ainda.").pack(pady=20)
     else:
         for prof, media in medias.items():
-            ctk.CTkLabel(tela, text=f"{prof}: {media:.2f}").pack(pady=5)
+            ctk.CTkLabel(tela, text=f"{prof}: {media:.2f}", font=("Arial", 14)).pack(pady=5)
+
+            # adiciona mensagem personalizada
+            mensagem = obter_mensagem_por_nota(media)
+            ctk.CTkLabel(
+                tela,
+                text=mensagem,
+                wraplength=450,
+                justify="left",
+                text_color="#b0b0b0",
+                font=("Arial", 12)
+            ).pack(pady=4)
 
     btn_voltar = ctk.CTkButton(
         tela,
@@ -624,10 +628,66 @@ def tela_media_notas(logado_aluno):
     tela.mainloop()
 
 
+def tela_aluno_ver_notas_atividades(logado_aluno):
+    tela = ctk.CTk()
+    tela.geometry("750x550")
+    tela.title(f"Notas Detalhadas - {logado_aluno['nome']}")
+    
+    criar_fundo_responsivo(tela, "img.png")
+
+
+    ctk.CTkLabel(tela, text=f"Notas de {logado_aluno['nome']}", font=("Arial", 16)).pack(pady=15)
+
+    # Carregar alunos
+    try:
+        with open("arquivos/alunos.json", "r", encoding="utf-8") as arq:
+            alunos = json.load(arq)
+    except:
+        alunos = []
+
+    notas = []
+    for al in alunos:
+        if al["nome"] == logado_aluno["nome"]:
+            notas = al.get("notas", [])
+            break
+
+    frame_scroll = ctk.CTkScrollableFrame(tela, width=720, height=400)
+    frame_scroll.pack(pady=10, padx=10, fill="both", expand=True)
+
+    if not notas:
+        ctk.CTkLabel(frame_scroll, text="Nenhuma nota registrada ainda.", font=("Arial", 14)).pack(pady=20)
+    else:
+        for item in notas:
+            bloco = ctk.CTkFrame(frame_scroll)
+            bloco.pack(pady=8, padx=8, fill="x")
+
+            ctk.CTkLabel(bloco, text=f"Professor: {item['professor']}", font=("Arial", 12, "bold")).pack(anchor="w", padx=10, pady=3)
+            ctk.CTkLabel(bloco, text=f"Atividade:\n{item['atividade']}", wraplength=680, justify="left").pack(anchor="w", padx=12, pady=3)
+            ctk.CTkLabel(bloco, text=f"Nota: {item['nota']}", font=("Arial", 12)).pack(anchor="w", padx=12, pady=3)
+            ctk.CTkLabel(
+                bloco,
+                text=f"Mensagem:\n{item.get('mensagem', obter_mensagem_por_nota(float(item['nota'])))}",
+                wraplength=680,
+                justify="left",
+                text_color="#bfbfbf",
+                font=("Arial", 11)
+            ).pack(anchor="w", padx=12, pady=3)
+
+    btn_voltar = ctk.CTkButton(tela, text="Voltar", command=lambda: [tela.destroy(), tela_aluno_principal(logado_aluno)])
+    btn_voltar.pack(pady=15)
+
+    tela.mainloop()
+
+
+
 def tela_aluno_1(logado_aluno):
     tela = ctk.CTk()
     tela.geometry("700x500")
     tela.title(f"Aluno {logado_aluno['nome']}")
+    
+    criar_fundo_responsivo(tela, "img.png")
+
+    
 
     ctk.CTkLabel(tela, text=f"Bem-vindo(a), {logado_aluno['nome']}", font=("Arial", 16)).pack(pady=10)
 
@@ -673,6 +733,8 @@ def tela_ver_notas(tela_ant, logado_aluno):
     tela = ctk.CTk()
     tela.geometry("700x500")
     tela.title("Minhas Notas")
+    
+    criar_fundo_responsivo(tela, "img.png")
 
     ctk.CTkLabel(tela, text=f"Notas de {logado_aluno['nome']}", font=("Arial", 16)).pack(pady=15)
 
@@ -715,14 +777,9 @@ def tela_adm(tela_ant):
     tela_adm = ctk.CTk() 
     tela_adm.geometry('500x500')
 
-    img_fundo = ctk.CTkImage(
-        light_image=Image.open('img.png'),
-        dark_image=Image.open('img.png'),
-        size=(500, 500)
-    )
-    fundo = ctk.CTkLabel(tela_adm , image=img_fundo, text='')
-    fundo.place(x=0, y=0)
-    
+    criar_fundo_responsivo(tela_adm, "img.png")
+    txt = ctk.CTkLabel(tela_adm , text='')
+    txt.pack(padx=10, pady=30 )
     nome = ctk.CTkEntry(tela_adm, placeholder_text='Nome do Professor')
     nome.pack(padx=10, pady=10)
 
@@ -772,13 +829,7 @@ def tela_cadastrar_curso(tela_ant):
     tela_curso = ctk.CTk()
     tela_curso.geometry('500x500')
 
-    img_fundo = ctk.CTkImage(
-        light_image=Image.open('img.png'),
-        dark_image=Image.open('img.png'),
-        size=(500, 500)
-    )
-    fundo = ctk.CTkLabel(tela_curso, image=img_fundo, text='')
-    fundo.place(x=0, y=0)
+    criar_fundo_responsivo(tela_curso  , "img.png")
 
     txt = ctk.CTkLabel(tela_curso, text='Cadastro de Curso', font=('Arial', 18))
     txt.pack(padx=10, pady=20)
@@ -840,14 +891,7 @@ def index(tela_ant=None):
     index =ctk.CTk()
     index.geometry('500x500')
 
-    img_fundo = ctk.CTkImage(
-        light_image=Image.open('img.png'),
-        dark_image=Image.open('img.png'),
-        size=(500, 500)
-    )
-    fundo = ctk.CTkLabel(index , image=img_fundo, text='')
-    fundo.place(x=0, y=0)
-    
+    criar_fundo_responsivo(index, "img.png")
     txt = ctk.CTkLabel(index , text='')
     txt.pack(padx=10, pady=45 )
     btn_professor  =ctk.CTkButton(index, text="professor", command=lambda: tela_logar_professor(index))
