@@ -6,7 +6,7 @@ import json
 import os
 import socket
 import bcrypt
-
+from passlib.hash import bcrypt
 
 # ===============================
 # CONFIGURAÇÃO DO SERVIDOR
@@ -45,9 +45,9 @@ def receber_servidor(tipo):
         s.close()
 
 
-# ===============================
+
 # CLASSE PROFESSOR
-# ===============================
+
 
 class Professor:
     def __init__(self):
@@ -63,7 +63,8 @@ class Professor:
             "professor_cpf": cpf,
             "professor_contato": contato,
             "professor_diciplina": curso,
-            "professor_senha": bcrypt.hashpw(senha.encode(), bcrypt.gensalt()).decode(),
+            "professor_senha": bcrypt.hash(senha),
+
         }
 
         self.professor_lista.append(professor)
@@ -76,7 +77,8 @@ class Professor:
 
         for professor in self.professor_lista:
             if professor["professor_cpf"] == cpf:
-                if bcrypt.checkpw(senha.encode(), professor["professor_senha"].encode()):
+                if bcrypt.verify(senha, professor["professor_senha"]):
+
                     return professor
                 else:
                     return 2  # senha incorreta
@@ -134,7 +136,8 @@ class Aluno:
             "endereco": endereco,
             "telefone": telefone,
             "curso": curso,
-            "senha": bcrypt.hashpw(senha.encode(), bcrypt.gensalt()).decode(),
+            "senha": bcrypt.hash(senha),
+
         }
         self.aluno_lista.append(aluno)
         enviar_servidor("aluno", self.aluno_lista)
@@ -142,7 +145,7 @@ class Aluno:
     def logar_aluno(self, cpf, senha):
         for aluno in self.aluno_lista:
             if aluno["cpf"] == cpf:
-                if bcrypt.checkpw(senha.encode(), aluno["senha"].encode()):
+                if bcrypt.verify(senha, aluno["senha"]):
                     return aluno
                 else:
                     return 2
