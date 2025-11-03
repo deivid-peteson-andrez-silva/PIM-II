@@ -1,40 +1,37 @@
-from sistema import Professor
-professor = Professor()  
-from tkinter import messagebox 
-import customtkinter as ctk
-from sistema import Adm
-adm = Adm()
-from sistema import Aluno
+from sistema import Professor, Aluno, Adm, receber_servidor, enviar_servidor
+professor = Professor()
 aluno = Aluno()
+adm = Adm()
+
+import customtkinter as ctk
+from tkinter import messagebox
 from PIL import Image
-import json      
-import os  
+import os
 from mensagens import obter_mensagem_por_nota
 
-
-
-
-# telas professor  
-
-
+# telas professor
 ctk.set_appearance_mode('dark')
 ctk.set_default_color_theme("dark-blue")
 
-
 from PIL import Image, ImageTk
+
 
 def criar_fundo_responsivo(tela, caminho_imagem):
     """
     Adiciona um fundo responsivo a qualquer CTk janela.
     """
-    img_original = Image.open(caminho_imagem)
+    try:
+        img_original = Image.open(caminho_imagem)
+    except Exception:
+        # se imagem não existir, não quebra
+        img_original = Image.new("RGBA", (800, 600), (30, 30, 30, 255))
 
     label_fundo = ctk.CTkLabel(tela, text="")
     label_fundo.place(x=0, y=0, relwidth=1, relheight=1)
 
     def redimensionar(event):
-        largura = event.width
-        altura = event.height
+        largura = max(1, event.width)
+        altura = max(1, event.height)
         img_resized = img_original.resize((largura, altura))
         img_tk = ImageTk.PhotoImage(img_resized)
         label_fundo.configure(image=img_tk)
@@ -44,7 +41,7 @@ def criar_fundo_responsivo(tela, caminho_imagem):
     return label_fundo
 
 
-def tela_profe_cadastro(tela_ant):    
+def tela_profe_cadastro(tela_ant):
     tela_ant.destroy()
     cadastro = ctk.CTk()
     cadastro.geometry('500x550')
@@ -81,8 +78,8 @@ def tela_profe_cadastro(tela_ant):
 
         if not (profe_nome and profe_cpf and profe_contato and profe_senha):
             messagebox.showwarning("Atenção", "Preencha todos os campos!")
-            return        
-        
+            return
+
         ve_profe = professor.cadastro(profe_nome, profe_cpf, profe_contato, profe_curso, profe_senha)
 
         if ve_profe == 3:
@@ -90,7 +87,7 @@ def tela_profe_cadastro(tela_ant):
         else:
             messagebox.showinfo("Sucesso", f"Professor {profe_nome} cadastrado no curso {profe_curso}!")
             tela_logar_professor(cadastro)
-       
+
         nome.delete(0, "end")
         cpf.delete(0, "end")
         contato.delete(0, "end")
@@ -104,56 +101,47 @@ def tela_profe_cadastro(tela_ant):
 
     cadastro.mainloop()
 
+
 def tela_logar_professor(tela_ant):
-
-
-
     tela_ant.destroy()
-    logar_professor =ctk.CTk()
+    logar_professor = ctk.CTk()
     logar_professor.geometry('500x500')
 
     criar_fundo_responsivo(logar_professor, "img.png")
 
-    
-    
-    Log_cpf =ctk.CTkEntry(logar_professor, placeholder_text= 'cpf')
+    Log_cpf = ctk.CTkEntry(logar_professor, placeholder_text='cpf')
     Log_cpf.pack(padx=10, pady=10)
-    log_senha =ctk.CTkEntry(logar_professor, placeholder_text= 'senha' , show='*')
+    log_senha = ctk.CTkEntry(logar_professor, placeholder_text='senha', show='*')
     log_senha.pack(padx=10, pady=10)
+
     def profe_login():
         profe_senha = log_senha.get()
         profe_cpf = Log_cpf.get()
 
-
-        if not ( profe_cpf and profe_senha):
+        if not (profe_cpf and profe_senha):
             messagebox.showwarning("Atenção", "Preencha todos os campos!")
             return
-    
-        logado_profe =   professor.logar(profe_cpf,profe_senha)
-    
-        if logado_profe == 1 :
-            messagebox.showinfo('aaaaaa',f"Professor com cpf {profe_cpf} nao encontrado")
 
+        logado_profe = professor.logar(profe_cpf, profe_senha)
+
+        if logado_profe == 1:
+            messagebox.showinfo('Aviso', f"Professor com cpf {profe_cpf} não encontrado")
         elif logado_profe == 2:
-            messagebox.showinfo('aaaaaaa',f" senha invalida")
-        
+            messagebox.showinfo('Aviso', "Senha inválida")
         elif isinstance(logado_profe, dict):
             log_senha.delete(0, "end")
-            Log_cpf.delete(0, "end")    
+            Log_cpf.delete(0, "end")
             logar_professor.destroy()
             tela_professor_1(logado_profe)
-            
-    
-    btn_logar_prof =ctk.CTkButton(logar_professor, text="logar", command=profe_login)
+
+    btn_logar_prof = ctk.CTkButton(logar_professor, text="logar", command=profe_login)
     btn_logar_prof.pack(pady=15)
-    
-    btn_prof_cadastro = ctk.CTkButton(logar_professor, text="cadastrar", command=lambda :tela_profe_cadastro(logar_professor))
+
+    btn_prof_cadastro = ctk.CTkButton(logar_professor, text="cadastrar", command=lambda: tela_profe_cadastro(logar_professor))
     btn_prof_cadastro.pack(pady=15)
-    tela_index =ctk.CTkButton(logar_professor, text="voltar", command=lambda: index(logar_professor))
+    tela_index = ctk.CTkButton(logar_professor, text="voltar", command=lambda: index(logar_professor))
     tela_index.pack(pady=15)
     logar_professor.mainloop()
-
-
 
 
 def tela_professor_1(logado_profe):
@@ -165,29 +153,26 @@ def tela_professor_1(logado_profe):
     lbl = ctk.CTkLabel(tela, text=f"Bem-vindo(a), {logado_profe['professor_nome']}", font=("Arial", 16))
     lbl.pack(pady=20)
 
-    btn_atividade = ctk.CTkButton(tela, text="Criar nova atividade",command=lambda: tela_atividade_prof(tela, logado_profe))
+    btn_atividade = ctk.CTkButton(tela, text="Criar nova atividade",
+                                  command=lambda: tela_atividade_prof(tela, logado_profe))
     btn_atividade.pack(pady=10)
 
-    btn_corrigir = ctk.CTkButton(tela, text="Corrigir respostas",command=lambda: tela_corrigir(tela, logado_profe))
+    btn_corrigir = ctk.CTkButton(tela, text="Corrigir respostas",
+                                 command=lambda: tela_corrigir(tela, logado_profe))
     btn_corrigir.pack(pady=10)
 
     ctk.CTkButton(tela, text="Voltar", command=lambda: [tela.destroy(), index()]).pack(pady=10)
     tela.mainloop()
 
 
-
-
-
-    
 def tela_atividade_prof(tela_ant, logado_profe):
     tela_ant.destroy()  # destrói a tela anterior
     tela = ctk.CTk()
     tela.geometry("600x500")
     tela.title("Nova Atividade")
-    
+
     criar_fundo_responsivo(tela, "img.png")
 
-    
     lbl = ctk.CTkLabel(tela, text="Digite o enunciado da atividade:", font=("Arial", 14))
     lbl.pack(pady=10)
 
@@ -197,6 +182,7 @@ def tela_atividade_prof(tela_ant, logado_profe):
     def salvar_atividade():
         texto = chat.get("1.0", "end").strip()
         if texto:
+            # atualiza no servidor via método Professor.atividade (que chama enviar_servidor)
             professor.atividade(logado_profe["professor_nome"], texto)
             tela.destroy()  # destrói a tela de atividade antes de abrir a próxima
             messagebox.showinfo("Sucesso", "Atividade cadastrada!")
@@ -212,11 +198,7 @@ def tela_atividade_prof(tela_ant, logado_profe):
 
     tela.mainloop()
 
-    
-    
-    
-    
-    
+
 def tela_corrigir(tela_ant, prof_logado):
     try:
         tela_ant.destroy()
@@ -234,26 +216,21 @@ def tela_corrigir(tela_ant, prof_logado):
         font=("Arial", 18, "bold")
     ).pack(pady=12)
 
-    caminho = "arquivos/alunos.json"
-    if not os.path.exists(caminho):
-        ctk.CTkLabel(tela, text="Arquivo de alunos não encontrado.", font=("Arial", 12)).pack(pady=20)
+    # pegar alunos do servidor
+    alunos = receber_servidor("get_aluno") or []
+
+    if not alunos:
+        ctk.CTkLabel(tela, text="Nenhum aluno cadastrado no servidor.", font=("Arial", 12)).pack(pady=20)
         ctk.CTkButton(tela, text="Voltar", command=lambda: [tela.destroy(), tela_professor_1(prof_logado)]).pack(pady=10)
         tela.mainloop()
         return
 
-    # Carregar alunos
-    with open(caminho, "r", encoding="utf-8") as arq:
-        try:
-            alunos = json.load(arq)
-        except:
-            alunos = []
-
     respostas_para_corrigir = []
-    for aluno in alunos:
-        for r in aluno.get("respostas", []):
+    for alu in alunos:
+        for r in alu.get("respostas", []):
             if r.get("professor") == prof_logado["professor_nome"] and not r.get("corrigida", False):
                 respostas_para_corrigir.append({
-                    "aluno": aluno["nome"],
+                    "aluno": alu["nome"],
                     "atividade": r.get("atividade"),
                     "resposta": r.get("resposta")
                 })
@@ -265,6 +242,9 @@ def tela_corrigir(tela_ant, prof_logado):
 
     if not respostas_para_corrigir:
         ctk.CTkLabel(frame_scroll, text="Nenhuma resposta pendente no momento.", font=("Arial", 13)).pack(pady=20)
+        ctk.CTkButton(frame_scroll, text="Voltar", command=lambda: [tela.destroy(), tela_professor_1(prof_logado)]).pack(pady=8)
+        tela.mainloop()
+        return
     else:
         for item in respostas_para_corrigir:
             bloco = ctk.CTkFrame(frame_scroll)
@@ -272,19 +252,20 @@ def tela_corrigir(tela_ant, prof_logado):
 
             ctk.CTkLabel(bloco, text=f"Aluno: {item['aluno']}", font=("Arial", 12, "bold")).pack(anchor="w", padx=8, pady=4)
             ctk.CTkLabel(bloco, text=f"Atividade:\n{item['atividade']}", wraplength=740, justify="left").pack(anchor="w", padx=12)
-            ctk.CTkLabel(bloco, text=f"Resposta:\n{item['resposta']}", wraplength=740, justify="left", text_color="#bfbfbf").pack(anchor="w", padx=12, pady=(6,4))
+            ctk.CTkLabel(bloco, text=f"Resposta:\n{item['resposta']}", wraplength=740, justify="left",
+                         text_color="#bfbfbf").pack(anchor="w", padx=12, pady=(6, 4))
 
             # Entrada da nota
             linha_nota = ctk.CTkFrame(bloco)
             linha_nota.pack(anchor="w", padx=12, pady=6)
-            ctk.CTkLabel(linha_nota, text="Nota (0-10):", font=("Arial", 11)).pack(side="left", padx=(0,6))
+            ctk.CTkLabel(linha_nota, text="Nota (0-10):", font=("Arial", 11)).pack(side="left", padx=(0, 6))
             entrada_nota = ctk.CTkEntry(linha_nota, placeholder_text="ex: 8.5", width=120)
             entrada_nota.pack(side="left")
 
             # Entrada da mensagem opcional
-            ctk.CTkLabel(bloco, text="Mensagem para o aluno (opcional):", font=("Arial", 11)).pack(anchor="w", padx=12, pady=(6,2))
+            ctk.CTkLabel(bloco, text="Mensagem para o aluno (opcional):", font=("Arial", 11)).pack(anchor="w", padx=12, pady=(6, 2))
             entrada_msg = ctk.CTkEntry(bloco, placeholder_text="Digite uma mensagem ou deixe vazio para automática", width=600)
-            entrada_msg.pack(anchor="w", padx=12, pady=(0,6))
+            entrada_msg.pack(anchor="w", padx=12, pady=(0, 6))
 
             entradas_notas.append({
                 "aluno": item["aluno"],
@@ -299,12 +280,8 @@ def tela_corrigir(tela_ant, prof_logado):
             messagebox.showinfo("Aviso", "Não há respostas para corrigir.")
             return
 
-        # Recarregar alunos para garantir atualização
-        with open(caminho, "r", encoding="utf-8") as arq:
-            try:
-                alunos = json.load(arq)
-            except:
-                alunos = []
+        # Recarregar alunos do servidor para garantir atualização
+        alunos = receber_servidor("get_aluno") or []
 
         alterou = False
         for item in entradas_notas:
@@ -323,14 +300,12 @@ def tela_corrigir(tela_ant, prof_logado):
             # Mensagem: se o professor digitou, usa; senão automática
             msg = item["mensagem"].get().strip()
             if not msg:
-                from mensagens import obter_mensagem_por_nota
                 msg = obter_mensagem_por_nota(nota_val)
 
-            # Atualiza aluno
+            # Atualiza aluno localmente (na lista 'alunos')
             for a in alunos:
                 if a.get("nome") == item["aluno"]:
-                    if "notas" not in a:
-                        a["notas"] = []
+                    a.setdefault("notas", [])
                     for r in a.get("respostas", []):
                         if r.get("atividade") == item["atividade"] and r.get("professor") == prof_logado["professor_nome"] and not r.get("corrigida", False):
                             r["nota"] = nota_val
@@ -347,8 +322,8 @@ def tela_corrigir(tela_ant, prof_logado):
                     break
 
         if alterou:
-            with open(caminho, "w", encoding="utf-8") as arq:
-                json.dump(alunos, arq, indent=4, ensure_ascii=False)
+            # envia lista inteira de alunos para o servidor salvar
+            enviar_servidor("aluno", alunos)
             messagebox.showinfo("Sucesso", "Notas e mensagens salvas com sucesso!")
             tela.destroy()
             tela_professor_1(prof_logado)
@@ -362,9 +337,6 @@ def tela_corrigir(tela_ant, prof_logado):
     ctk.CTkButton(botoes, text="Voltar", command=lambda: [tela.destroy(), tela_professor_1(prof_logado)], width=120).pack(side="left", padx=8)
 
     tela.mainloop()
-
-
-
 
 
 def tela_atribuir_nota(tela_ant, logado_profe):
@@ -385,6 +357,62 @@ def tela_atribuir_nota(tela_ant, logado_profe):
     nota = ctk.CTkEntry(tela, placeholder_text="Nota (0 - 10)")
     nota.pack(pady=10)
 
+    def atribuir_nota_server(prof_name, nome_a, atividade_t, nota_num):
+        """
+        Função local para atribuir nota via servidor:
+        - busca lista de alunos (get_aluno)
+        - encontra aluno e responde/atualiza
+        - envia lista atualizada para servidor (aluno)
+        Retorna: 0 = arquivo / servidor não disponível, 1 = aluno não encontrado, 2 = sucesso
+        """
+        alunos = receber_servidor("get_aluno")
+        if alunos is None:
+            return 0
+        encontrado = False
+        for a in alunos:
+            if a.get("nome") == nome_a:
+                encontrado = True
+                # adiciona notas/atualiza respostas
+                a.setdefault("notas", [])
+                updated = False
+                for r in a.get("respostas", []):
+                    if r.get("atividade") == atividade_t and r.get("professor") == prof_name:
+                        r["nota"] = nota_num
+                        r["corrigida"] = True
+                        # gerar mensagem automática
+                        r["mensagem"] = obter_mensagem_por_nota(nota_num)
+                        a["notas"].append({
+                            "professor": prof_name,
+                            "atividade": atividade_t,
+                            "nota": nota_num,
+                            "mensagem": r["mensagem"]
+                        })
+                        updated = True
+                        break
+                if not updated:
+                    # se aluno não tiver respondido essa atividade, adiciona a nota diretamente
+                    a["respostas"] = a.get("respostas", [])
+                    a["respostas"].append({
+                        "professor": prof_name,
+                        "atividade": atividade_t,
+                        "resposta": "",
+                        "nota": nota_num,
+                        "corrigida": True,
+                        "mensagem": obter_mensagem_por_nota(nota_num)
+                    })
+                    a["notas"].append({
+                        "professor": prof_name,
+                        "atividade": atividade_t,
+                        "nota": nota_num,
+                        "mensagem": obter_mensagem_por_nota(nota_num)
+                    })
+                break
+        if not encontrado:
+            return 1
+        # envia para servidor
+        enviar_servidor("aluno", alunos)
+        return 2
+
     def salvar_nota():
         nome_a = nome_aluno.get().strip()
         atividade_t = atividade.get().strip()
@@ -402,7 +430,7 @@ def tela_atribuir_nota(tela_ant, logado_profe):
             messagebox.showerror("Erro", "Digite uma nota válida entre 0 e 10.")
             return
 
-        resultado = professor.atribuir_nota(
+        resultado = atribuir_nota_server(
             logado_profe["professor_nome"],
             nome_a,
             atividade_t,
@@ -410,7 +438,7 @@ def tela_atribuir_nota(tela_ant, logado_profe):
         )
 
         if resultado == 0:
-            messagebox.showerror("Erro", "Arquivo de alunos não encontrado.")
+            messagebox.showerror("Erro", "Servidor indisponível ou erro ao acessar alunos.")
         elif resultado == 1:
             messagebox.showerror("Erro", "Aluno não encontrado.")
         elif resultado == 2:
@@ -427,23 +455,18 @@ def tela_atribuir_nota(tela_ant, logado_profe):
     tela.mainloop()
 
 
-
-
 # telas do aluno
 
 
-
-
 def tela_aluno_cadastro(tela_ant):
-    tela_ant.destroy()    
-    tela_aluno_ca = ctk.CTk() 
+    tela_ant.destroy()
+    tela_aluno_ca = ctk.CTk()
     tela_aluno_ca.geometry('500x550')
-    
+
     criar_fundo_responsivo(tela_aluno_ca, "img.png")
 
-    
-    txt = ctk.CTkLabel(tela_aluno_ca,text='Insira seus dados')
-    txt.pack(padx=10, pady=10 )
+    txt = ctk.CTkLabel(tela_aluno_ca, text='Insira seus dados')
+    txt.pack(padx=10, pady=10)
 
     nome = ctk.CTkEntry(tela_aluno_ca, placeholder_text='Nome')
     nome.pack(padx=10, pady=10)
@@ -457,7 +480,6 @@ def tela_aluno_cadastro(tela_ant):
     endereco.pack(padx=10, pady=10)
     senha = ctk.CTkEntry(tela_aluno_ca, placeholder_text='Senha', show='*')
     senha.pack(padx=10, pady=10)
-
 
     cursos = adm.listar_cursos()
     if not cursos:
@@ -479,7 +501,7 @@ def tela_aluno_cadastro(tela_ant):
         if not (aluno_nome and aluno_cpf and aluno_contato and data_nascimento and aluno_senha):
             messagebox.showwarning("Atenção", "Preencha todos os campos!")
             return
-      
+
         aluno.cadastrar_aluno(aluno_nome, aluno_cpf, data_nascimento, aluno_endereco, aluno_contato, aluno_senha, aluno_curso)
         messagebox.showinfo("Sucesso", f"Aluno '{aluno_nome}' cadastrado no curso '{aluno_curso}'!")
 
@@ -494,57 +516,50 @@ def tela_aluno_cadastro(tela_ant):
     btn_cadastrar = ctk.CTkButton(tela_aluno_ca, text="Cadastrar", command=aluno_cadastro)
     btn_cadastrar.pack(pady=15)
 
-    tela_index = ctk.CTkButton(tela_aluno_ca, text="Index", command=lambda: index(tela_aluno_ca))
+    tela_index = ctk.CTkButton(tela_aluno_ca, text="voutar", command=lambda: index(tela_aluno_ca))
     tela_index.pack(pady=15)
-    
+
     tela_aluno_ca.mainloop()
 
+
 def tela_logar_aluno(tela_ant):
-
-
-
     tela_ant.destroy()
-    logar_aluno =ctk.CTk()
+    logar_aluno = ctk.CTk()
     logar_aluno.geometry('500x500')
 
     criar_fundo_responsivo(logar_aluno, "img.png")
 
-    
-    
-    Log_cpf =ctk.CTkEntry(logar_aluno, placeholder_text= 'cpf')
+    Log_cpf = ctk.CTkEntry(logar_aluno, placeholder_text='cpf')
     Log_cpf.pack(padx=10, pady=10)
-    log_senha =ctk.CTkEntry(logar_aluno, placeholder_text= 'senha' , show='*')
+    log_senha = ctk.CTkEntry(logar_aluno, placeholder_text='senha', show='*')
     log_senha.pack(padx=10, pady=10)
+
     def aluno_login():
         aluno_senha = log_senha.get()
         aluno_cpf = Log_cpf.get()
 
-
-        if not ( aluno_cpf and aluno_senha):
+        if not (aluno_cpf and aluno_senha):
             messagebox.showwarning("Atenção", "Preencha todos os campos!")
             return
-    
-        logado_aluno =   aluno.logar_aluno(aluno_cpf,aluno_senha)
-    
-        if logado_aluno == 1 :
-            messagebox.showinfo('aaaaaa',f"Professor com cpf {aluno_cpf} nao encontrado")
 
+        logado_aluno = aluno.logar_aluno(aluno_cpf, aluno_senha)
+
+        if logado_aluno == 1:
+            messagebox.showinfo('Aviso', f"Aluno com cpf {aluno_cpf} não encontrado")
         elif logado_aluno == 2:
-            messagebox.showinfo('aaaaaaa',f" senha invalida")
-        
+            messagebox.showinfo('Aviso', "Senha inválida")
         elif isinstance(logado_aluno, dict):
             log_senha.delete(0, "end")
-            Log_cpf.delete(0, "end")    
+            Log_cpf.delete(0, "end")
             logar_aluno.destroy()
             tela_aluno_principal(logado_aluno)
-            
-    
-    btn_logar_aluno =ctk.CTkButton(logar_aluno, text="logar", command=aluno_login)
+
+    btn_logar_aluno = ctk.CTkButton(logar_aluno, text="logar", command=aluno_login)
     btn_logar_aluno.pack(pady=15)
-    
-    btn_aluno_cadastro = ctk.CTkButton(logar_aluno, text="cadastrar", command=lambda :tela_aluno_cadastro(logar_aluno))
+
+    btn_aluno_cadastro = ctk.CTkButton(logar_aluno, text="cadastrar", command=lambda: tela_aluno_cadastro(logar_aluno))
     btn_aluno_cadastro.pack(pady=15)
-    tela_index =ctk.CTkButton(logar_aluno, text="sair", command=lambda: index(logar_aluno))
+    tela_index = ctk.CTkButton(logar_aluno, text="sair", command=lambda: index(logar_aluno))
     tela_index.pack(pady=15)
     logar_aluno.mainloop()
 
@@ -590,6 +605,7 @@ def tela_aluno_principal(logado_aluno):
 
     tela.mainloop()
 
+
 def tela_media_notas(logado_aluno):
     aluno_obj = Aluno()
     medias = aluno_obj.calcular_media(logado_aluno["nome"])
@@ -632,18 +648,13 @@ def tela_aluno_ver_notas_atividades(logado_aluno):
     tela = ctk.CTk()
     tela.geometry("750x550")
     tela.title(f"Notas Detalhadas - {logado_aluno['nome']}")
-    
-    criar_fundo_responsivo(tela, "img.png")
 
+    criar_fundo_responsivo(tela, "img.png")
 
     ctk.CTkLabel(tela, text=f"Notas de {logado_aluno['nome']}", font=("Arial", 16)).pack(pady=15)
 
-    # Carregar alunos
-    try:
-        with open("arquivos/alunos.json", "r", encoding="utf-8") as arq:
-            alunos = json.load(arq)
-    except:
-        alunos = []
+    # Carregar alunos do servidor
+    alunos = receber_servidor("get_aluno") or []
 
     notas = []
     for al in alunos:
@@ -679,22 +690,19 @@ def tela_aluno_ver_notas_atividades(logado_aluno):
     tela.mainloop()
 
 
-
 def tela_aluno_1(logado_aluno):
     tela = ctk.CTk()
     tela.geometry("700x500")
     tela.title(f"Aluno {logado_aluno['nome']}")
-    
-    criar_fundo_responsivo(tela, "img.png")
 
-    
+    criar_fundo_responsivo(tela, "img.png")
 
     ctk.CTkLabel(tela, text=f"Bem-vindo(a), {logado_aluno['nome']}", font=("Arial", 16)).pack(pady=10)
 
     frame_scroll = ctk.CTkScrollableFrame(tela, width=650, height=380)
     frame_scroll.pack(pady=10, padx=10, fill="both", expand=True)
 
-    # Pega apenas atividades que o aluno ainda não respondeu
+    # Pega apenas atividades que o aluno ainda não respondeu (usa Aluno.ver_atividades que foi adaptada para servidor)
     atividades = aluno.ver_atividades(logado_aluno["nome"])
 
     if not atividades:
@@ -726,23 +734,19 @@ def tela_aluno_1(logado_aluno):
     ctk.CTkButton(tela, text="Voltar", command=lambda: [tela.destroy(), tela_aluno_principal(logado_aluno)]).pack(pady=10)
     tela.mainloop()
 
-    
-    
+
 def tela_ver_notas(tela_ant, logado_aluno):
     tela_ant.destroy()
     tela = ctk.CTk()
     tela.geometry("700x500")
     tela.title("Minhas Notas")
-    
+
     criar_fundo_responsivo(tela, "img.png")
 
     ctk.CTkLabel(tela, text=f"Notas de {logado_aluno['nome']}", font=("Arial", 16)).pack(pady=15)
 
-    try:
-        with open("arquivos/alunos.json", "r", encoding="utf-8") as arq:
-            alunos = json.load(arq)
-    except:
-        alunos = []
+    # Carregar alunos do servidor
+    alunos = receber_servidor("get_aluno") or []
 
     notas = []
     for al in alunos:
@@ -765,21 +769,18 @@ def tela_ver_notas(tela_ant, logado_aluno):
     btn_voltar.pack(pady=20)
 
     tela.mainloop()
-    
-    #telas adm  
-    
-    
-    
 
+
+# telas adm
 
 def tela_adm(tela_ant):
     tela_ant.destroy()
-    tela_adm = ctk.CTk() 
+    tela_adm = ctk.CTk()
     tela_adm.geometry('500x500')
 
     criar_fundo_responsivo(tela_adm, "img.png")
-    txt = ctk.CTkLabel(tela_adm , text='')
-    txt.pack(padx=10, pady=30 )
+    txt = ctk.CTkLabel(tela_adm, text='')
+    txt.pack(padx=10, pady=30)
     nome = ctk.CTkEntry(tela_adm, placeholder_text='Nome do Professor')
     nome.pack(padx=10, pady=10)
 
@@ -802,7 +803,7 @@ def tela_adm(tela_ant):
         if not (nome_profe and profe_cpf):
             messagebox.showwarning("Atenção", "Preencha todos os campos!")
             return
-        
+
         adm.cadastrar_professor_cpf(nome_profe, profe_cpf, is_coord)
         messagebox.showinfo("Sucesso", f"Professor '{nome_profe}' cadastrado! Coordenador: {is_coord}")
 
@@ -813,15 +814,13 @@ def tela_adm(tela_ant):
     btn_cpf_prof = ctk.CTkButton(tela_adm, text="Cadastrar Professor", command=cadastro_cpf_prof)
     btn_cpf_prof.pack(pady=15)
 
-    btn_cadastrar_curso = ctk.CTkButton(tela_adm,text="Cadastrar Curso",command=lambda: tela_cadastrar_curso(tela_adm))
+    btn_cadastrar_curso = ctk.CTkButton(tela_adm, text="Cadastrar Curso", command=lambda: tela_cadastrar_curso(tela_adm))
     btn_cadastrar_curso.pack(pady=10)
 
     tela_index = ctk.CTkButton(tela_adm, text="Voltar", command=lambda: index(tela_adm))
     tela_index.pack(pady=15)
 
     tela_adm.mainloop()
-    
-    
 
 
 def tela_cadastrar_curso(tela_ant):
@@ -829,7 +828,7 @@ def tela_cadastrar_curso(tela_ant):
     tela_curso = ctk.CTk()
     tela_curso.geometry('500x500')
 
-    criar_fundo_responsivo(tela_curso  , "img.png")
+    criar_fundo_responsivo(tela_curso, "img.png")
 
     txt = ctk.CTkLabel(tela_curso, text='Cadastro de Curso', font=('Arial', 18))
     txt.pack(padx=10, pady=20)
@@ -857,7 +856,7 @@ def tela_cadastrar_curso(tela_ant):
         if not (nome and coordenador and carga):
             messagebox.showwarning("Atenção", "Preencha todos os campos!")
             return
-        
+
         try:
             adm.cadastrar_curso(nome, coordenador, carga)
             messagebox.showinfo("Sucesso", f"Curso '{nome}' cadastrado com sucesso!")
@@ -875,32 +874,27 @@ def tela_cadastrar_curso(tela_ant):
     tela_curso.mainloop()
 
 
-
-
-
-
-
-
-
-
 def index(tela_ant=None):
     if tela_ant:
-        tela_ant.destroy()    
-    
+        try:
+            tela_ant.destroy()
+        except:
+            pass
 
-    index =ctk.CTk()
+    index = ctk.CTk()
     index.geometry('500x500')
 
     criar_fundo_responsivo(index, "img.png")
-    txt = ctk.CTkLabel(index , text='')
-    txt.pack(padx=10, pady=45 )
-    btn_professor  =ctk.CTkButton(index, text="professor", command=lambda: tela_logar_professor(index))
+    txt = ctk.CTkLabel(index, text='')
+    txt.pack(padx=10, pady=45)
+    btn_professor = ctk.CTkButton(index, text="professor", command=lambda: tela_logar_professor(index))
     btn_professor.pack(pady=30)
-    btn_adm  =ctk.CTkButton(index, text="administração", command=lambda: tela_adm(index))
+    btn_adm = ctk.CTkButton(index, text="administração", command=lambda: tela_adm(index))
     btn_adm.pack(pady=30)
-    btn_aluno = ctk.CTkButton(index,text='aluno', command=lambda: tela_logar_aluno(index) )
+    btn_aluno = ctk.CTkButton(index, text='aluno', command=lambda: tela_logar_aluno(index))
     btn_aluno.pack(pady=30)
     index.mainloop()
 
 
-index()
+if __name__ == "__main__":
+    index()

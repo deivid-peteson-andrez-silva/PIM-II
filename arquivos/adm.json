@@ -1,0 +1,45 @@
+{
+    "login_adm": "adm123",
+    "senha_adm": "adm123",
+    "cpf_professor": [
+        {
+            "nome": "deivid",
+            "cpf": "123",
+            "coordenador": true
+        },
+        {
+            "nome": "deivid123131",
+            "cpf": "123",
+            "coordenador": false
+        }
+    ],
+    "curso_diciplina": [
+        {
+            "nome_curso": "aaaaaaaaa",
+            "professor_coordenador": "deivid",
+            "curso_carga_hora": "1111",
+            "atividades": [
+                {
+                    "professor": "andrez",
+                    "texto": "ativiade 1\nativiade 1\n\nativiade 1\n\nativiade 1"
+                },
+                {
+                    "professor": "andrez",
+                    "texto": "ativiade 2\nativiade 2\n\nativiade 2\n\nativiade 2\n\nativiade 2"
+                },
+                {
+                    "professor": "andrez",
+                    "texto": "ativiade 3\nativiade 3\n\nativiade 3\n\nativiade 3"
+                },
+                {
+                    "professor": "andrez",
+                    "texto": "asdadadasdad"
+                },
+                {
+                    "professor": "andrez",
+                    "texto": "575675675675"
+                }
+            ]
+        }
+    ]
+}
