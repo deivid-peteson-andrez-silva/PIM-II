@@ -5,9 +5,6 @@
 import json
 import os
 import socket
-
-from passlib.hash import bcrypt
-
 # ===============================
 # CONFIGURAÇÃO DO SERVIDOR
 # ===============================
@@ -70,7 +67,7 @@ class Professor:
             "professor_cpf": cpf,
             "professor_contato": contato,
             "professor_diciplina": curso,
-            "professor_senha": bcrypt.hash(senha),
+            "professor_senha": senha,
 
         }
 
@@ -84,7 +81,7 @@ class Professor:
 
         for professor in self.professor_lista:
             if professor["professor_cpf"] == cpf:
-                if bcrypt.verify(senha, professor["professor_senha"]):
+                if senha == professor["professor_senha"]:
 
                     return professor
                 else:
@@ -143,7 +140,7 @@ class Aluno:
             "endereco": endereco,
             "telefone": telefone,
             "curso": curso,
-            "senha": bcrypt.hash(senha),
+            "senha": senha,
 
         }
         self.aluno_lista.append(aluno)
@@ -152,7 +149,7 @@ class Aluno:
     def logar_aluno(self, cpf, senha):
         for aluno in self.aluno_lista:
             if aluno["cpf"] == cpf:
-                if bcrypt.verify(senha, aluno["senha"]):
+                if senha == aluno["senha"]:
                     return aluno
                 else:
                     return 2

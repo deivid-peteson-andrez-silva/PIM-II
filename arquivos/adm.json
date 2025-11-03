@@ -5,32 +5,22 @@
         {
             "nome": "123",
             "cpf": "123",
-            "coordenador": false
-        },
-        {
-            "nome": "111",
-            "cpf": "111",
-            "coordenador": true
-        },
-        {
-            "nome": "12312",
-            "cpf": "123",
             "coordenador": true
         }
     ],
     "curso_diciplina": [
         {
             "nome_curso": "123",
-            "professor_coordenador": "111",
+            "professor_coordenador": "123",
             "curso_carga_hora": "123",
             "atividades": [
                 {
                     "professor": "123",
-                    "texto": "fds\\df\\dfdf"
+                    "texto": "fsfsdfdgdgdgdgrggred"
                 },
                 {
                     "professor": "123",
-                    "texto": "f\\ef\\f\\efesf\\efefsfes\\"
+                    "texto": "wqeqweqeqweqweqweqeqeqeqrfqw"
                 }
             ]
         }
