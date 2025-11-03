@@ -5,7 +5,7 @@
 import json
 import os
 import socket
-import bcrypt
+
 from passlib.hash import bcrypt
 
 # ===============================
@@ -36,7 +36,14 @@ def receber_servidor(tipo):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((SERVER_IP, SERVER_PORT))
         s.send(json.dumps({"tipo": tipo}).encode())
-        data = s.recv(4096)
+        chunks = []
+        while True:
+            part = s.recv(4096)
+            if not part:
+                break
+            chunks.append(part)
+        data = b"".join(chunks)
+
         return json.loads(data)
     except Exception as e:
         print("Erro no recebimento:", e)

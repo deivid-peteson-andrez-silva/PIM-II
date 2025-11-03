@@ -1,16 +1,13 @@
 [
     {
-        "professor_nome": "andrez",
+        "professor_nome": "123",
         "professor_cpf": "123",
         "professor_contato": "123",
-        "professor_diciplina": "aaaaaaaaa",
-        "professor_senha": "$2b$12$qzvStasXHC5bU8zdjxGnqO7QnDdCmR0Pzrcez0w2JNgo82lWikldi",
+        "professor_diciplina": "123",
+        "professor_senha": "$2b$12$A.HZQuhSsZm15bFWbVjqjexbNbqs3ezfQq/h3gZcJnAyYvSzciMYO",
         "atividades": [
-            "ativiade 1\nativiade 1\n\nativiade 1\n\nativiade 1",
-            "ativiade 2\nativiade 2\n\nativiade 2\n\nativiade 2\n\nativiade 2",
-            "ativiade 3\nativiade 3\n\nativiade 3\n\nativiade 3",
-            "asdadadasdad",
-            "575675675675"
+            "fds\\df\\dfdf",
+            "f\\ef\\f\\efesf\\efefsfes\\"
         ]
     }
 ]

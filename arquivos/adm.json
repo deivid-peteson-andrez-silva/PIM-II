@@ -3,51 +3,34 @@
     "senha_adm": "adm123",
     "cpf_professor": [
         {
-            "nome": "deivid",
+            "nome": "123",
             "cpf": "123",
+            "coordenador": false
+        },
+        {
+            "nome": "111",
+            "cpf": "111",
             "coordenador": true
         },
         {
-            "nome": "deivid123131",
+            "nome": "12312",
             "cpf": "123",
-            "coordenador": false
-        },
-        {
-            "nome": "jsjssjdj",
-            "cpf": "111",
-            "coordenador": false
-        },
-        {
-            "nome": "ejjeejsi2212q",
-            "cpf": "21111ww12",
-            "coordenador": false
+            "coordenador": true
         }
     ],
     "curso_diciplina": [
         {
-            "nome_curso": "aaaaaaaaa",
-            "professor_coordenador": "deivid",
-            "curso_carga_hora": "1111",
+            "nome_curso": "123",
+            "professor_coordenador": "111",
+            "curso_carga_hora": "123",
             "atividades": [
                 {
-                    "professor": "andrez",
-                    "texto": "ativiade 1\nativiade 1\n\nativiade 1\n\nativiade 1"
+                    "professor": "123",
+                    "texto": "fds\\df\\dfdf"
                 },
                 {
-                    "professor": "andrez",
-                    "texto": "ativiade 2\nativiade 2\n\nativiade 2\n\nativiade 2\n\nativiade 2"
-                },
-                {
-                    "professor": "andrez",
-                    "texto": "ativiade 3\nativiade 3\n\nativiade 3\n\nativiade 3"
-                },
-                {
-                    "professor": "andrez",
-                    "texto": "asdadadasdad"
-                },
-                {
-                    "professor": "andrez",
-                    "texto": "575675675675"
+                    "professor": "123",
+                    "texto": "f\\ef\\f\\efesf\\efefsfes\\"
                 }
             ]
         }

@@ -33,14 +33,17 @@ def handle_client(conn, addr):
         if tipo == "adm":
             with open("arquivos/adm.json", "w", encoding="utf-8") as f:
                 json.dump(payload["dados"], f, indent=4, ensure_ascii=False)
+            conn.send(b"OK")
 
         elif tipo == "professor":
             with open("arquivos/professor.json", "w", encoding="utf-8") as f:
                 json.dump(payload["dados"], f, indent=4, ensure_ascii=False)
+            conn.send(b"OK")
 
         elif tipo == "aluno":
             with open("arquivos/aluno.json", "w", encoding="utf-8") as f:
                 json.dump(payload["dados"], f, indent=4, ensure_ascii=False)
+            conn.send(b"OK")
 
         # ======== LEITURAS ========
         elif tipo == "get_adm":
@@ -55,11 +58,8 @@ def handle_client(conn, addr):
             with open("arquivos/aluno.json", "r", encoding="utf-8") as f:
                 conn.send(json.dumps(json.load(f)).encode())
 
-        conn.send(b"OK")
-
     except Exception as e:
         print("Erro no cliente:", e)
-
     finally:
         conn.close()
 
