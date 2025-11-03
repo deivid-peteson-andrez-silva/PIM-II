@@ -13,11 +13,9 @@ ctk.set_appearance_mode('dark')
 ctk.set_default_color_theme("dark-blue")
 
 
-# -----------------------------
-# UTILITÁRIOS DE RESPONSIVIDADE
-# -----------------------------
+
 def aplicar_responsividade(tela):
-    """Configura janela: tenta fullscreen e permite redimensionamento."""
+
     try:
         largura = tela.winfo_screenwidth()
         altura = tela.winfo_screenheight()
@@ -81,9 +79,6 @@ def tamanhos_proporcionais(tela, ftitle_ratio=0.06, ftext_ratio=0.035, btn_h_rat
     return int(largura), int(altura), f_title, f_text, btn_h
 
 
-# -----------------------------
-# UTILITÁRIOS DE POSICIONAMENTO (sem Frames)
-# -----------------------------
 def place_center_label(root, text, font, relx=0.5, rely=0.2):
     lbl = ctk.CTkLabel(root, text=text, font=font)
     lbl.place(relx=relx, rely=rely, anchor="center")
@@ -125,9 +120,6 @@ def clear_window(win):
             pass
 
 
-# -----------------------------
-# INTERFACES (sem usar Frame; com CTkScrollableFrame nas 3 telas solicitadas)
-# -----------------------------
 def tela_profe_cadastro(tela_ant):
     try:
         tela_ant.destroy()
@@ -233,8 +225,7 @@ def tela_professor_1(logado_profe):
 
 
 def tela_atividade_prof(tela_ant, logado_profe):
-    """NOTA: Criar atividade — aqui não costuma listar muitos itens, mas a tela 'Fazer Atividade'
-    (tela do aluno) terá scroll. Mantemos a criação de atividade simples."""
+
     try:
         tela_ant.destroy()
     except Exception:
@@ -248,7 +239,7 @@ def tela_atividade_prof(tela_ant, logado_profe):
 
     place_center_label(tela, "Digite o enunciado da atividade:", ("Arial", f_text), rely=0.10)
 
-    # Textbox central (relativamente grande)
+
     chat = ctk.CTkTextbox(tela, font=("Arial", f_text))
     chat.place(relx=0.5, rely=0.30, anchor="center", relwidth=0.85, relheight=0.45)
 
@@ -303,13 +294,13 @@ def tela_corrigir(tela_ant, prof_logado):
         tela.mainloop()
         return
 
-    # Scrollable frame para mostrar todas as respostas
+
     scroll_h = 0.70
     sf = ctk.CTkScrollableFrame(tela, width=int(largura * 0.92), height=int(altura * scroll_h))
     sf.place(relx=0.5, rely=0.12 + scroll_h / 2, anchor="center")
 
     entradas_notas = []
-    # cada bloco dentro do scrollable frame (empilhando com pack)
+
     y_idx = 0
     for item in respostas_para_corrigir:
         bloco = ctk.CTkLabel(sf, text=f"Aluno: {item['aluno']}", font=("Arial", f_text, "bold"), anchor="w")
@@ -478,10 +469,6 @@ def tela_atribuir_nota(tela_ant, logado_profe):
 
     tela.mainloop()
 
-
-# -----------------------------
-# TELAS DO ALUNO (com scroll nas 2 telas pedidas)
-# -----------------------------
 def tela_aluno_cadastro(tela_ant):
     try:
         tela_ant.destroy()
@@ -650,10 +637,7 @@ def tela_aluno_ver_notas_atividades(logado_aluno):
 
 
 def tela_aluno_1(logado_aluno):
-    """
-    Fazer Atividade — usa CTkScrollableFrame para listar todas as atividades disponíveis
-    e permitir que o aluno responda cada uma.
-    """
+
     tela = ctk.CTk()
     aplicar_responsividade(tela)
     criar_fundo_responsivo(tela, "img.png")
@@ -687,7 +671,7 @@ def tela_aluno_1(logado_aluno):
             if resposta:
                 aluno.enviar_resposta(logado_aluno["nome"], atv_ref["professor"], resposta, atv_ref["texto"])
                 messagebox.showinfo("Sucesso", "Resposta enviada com sucesso!")
-                # depois de enviar, atualiza a tela (reabre)
+
                 tela.destroy()
                 tela_aluno_1(logado_aluno)
             else:
@@ -737,9 +721,7 @@ def tela_ver_notas(tela_ant, logado_aluno):
     tela.mainloop()
 
 
-# -----------------------------
-# TELAS ADM (sem frames)
-# -----------------------------
+
 def tela_adm(tela_ant):
     try:
         tela_ant.destroy()
@@ -818,9 +800,7 @@ def tela_cadastrar_curso(tela_ant):
     tela_curso.mainloop()
 
 
-# -----------------------------
-# TELA INICIAL (INDEX)
-# -----------------------------
+
 def index(tela_ant=None):
     if tela_ant:
         try:
@@ -848,8 +828,5 @@ def index(tela_ant=None):
     janela.mainloop()
 
 
-# -----------------------------
-# PONTO DE ENTRADA
-# -----------------------------
 if __name__ == "__main__":
     index()

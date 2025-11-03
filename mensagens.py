@@ -2,10 +2,7 @@
 import random
 
 def obter_mensagem_por_nota(nota: float) -> str:
-    """
-    Retorna uma mensagem motivacional conforme a nota (0 a 10).
-    Cada nota tem 10 mensagens possíveis, escolhidas aleatoriamente.
-    """
+
 
     mensagens = {
         0: [
@@ -143,6 +140,5 @@ def obter_mensagem_por_nota(nota: float) -> str:
     }
 
     nota_int = int(round(nota))
-    nota_int = max(0, min(10, nota_int))  # garante que fique entre 0 e 10
-
+    nota_int = max(0, min(10, nota_int))  
     return random.choice(mensagens[nota_int])

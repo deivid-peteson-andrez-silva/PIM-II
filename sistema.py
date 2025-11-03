@@ -1,15 +1,9 @@
-# ===============================
-# sistema.py — versão com servidor (LAM)
-# ===============================
 
 import json
 import os
 import socket
-# ===============================
-# CONFIGURAÇÃO DO SERVIDOR
-# ===============================
 
-SERVER_IP = "192.168.1.202"  # ajuste conforme o IP da máquina do servidor
+SERVER_IP = "             "  # ajuste conforme o IP da máquina do servidor
 SERVER_PORT = 5000
 
 
@@ -20,7 +14,7 @@ def enviar_servidor(tipo, dados):
         s.connect((SERVER_IP, SERVER_PORT))
         payload = {"tipo": tipo, "dados": dados}
         s.send(json.dumps(payload).encode())
-        s.recv(1024)  # resposta "OK"
+        s.recv(1024)
     except Exception as e:
         print("Erro no envio:", e)
     finally:
@@ -60,7 +54,7 @@ class Professor:
     def cadastro(self, nome, cpf, contato, curso, senha):
         adm = Adm()
         if not adm.adm_ve(cpf):
-            return 3  # CPF não autorizado pelo adm
+            return 3  
 
         professor = {
             "professor_nome": nome,
@@ -77,7 +71,7 @@ class Professor:
 
     def logar(self, cpf, senha):
         if cpf == "adm123" and senha == "adm123":
-            return 3  # login de administrador
+            return 3  
 
         for professor in self.professor_lista:
             if professor["professor_cpf"] == cpf:
@@ -85,8 +79,8 @@ class Professor:
 
                     return professor
                 else:
-                    return 2  # senha incorreta
-        return 1  # cpf não encontrado
+                    return 2  
+        return 1  
 
     def alterar(self, prof_logado, novo_nome):
         for prof in self.professor_lista:
@@ -102,7 +96,7 @@ class Professor:
                 professor.setdefault("atividades", []).append(texto_digitado)
                 enviar_servidor("professor", self.professor_lista)
 
-                # também atualiza no adm.json do servidor
+    
                 adm_dados = receber_servidor("get_adm") or {}
                 for curso in adm_dados.get("curso_diciplina", []):
                     if curso.get("nome_curso") == professor["professor_diciplina"]:
@@ -124,9 +118,9 @@ class Professor:
         enviar_servidor("aluno", alunos)
 
 
-# ===============================
+
 # CLASSE ALUNO
-# ===============================
+
 
 class Aluno:
     def __init__(self):
@@ -208,9 +202,9 @@ class Aluno:
         return medias
 
 
-# ===============================
+
 # CLASSE ADM
-# ===============================
+
 
 class Adm:
     def __init__(self):

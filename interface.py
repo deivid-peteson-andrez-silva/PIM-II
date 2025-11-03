@@ -23,7 +23,7 @@ def criar_fundo_responsivo(tela, caminho_imagem):
     try:
         img_original = Image.open(caminho_imagem)
     except Exception:
-        # se imagem não existir, não quebra
+
         img_original = Image.new("RGBA", (800, 600), (30, 30, 30, 255))
 
     label_fundo = ctk.CTkLabel(tela, text="")
@@ -35,7 +35,7 @@ def criar_fundo_responsivo(tela, caminho_imagem):
         img_resized = img_original.resize((largura, altura))
         img_tk = ImageTk.PhotoImage(img_resized)
         label_fundo.configure(image=img_tk)
-        label_fundo.image = img_tk  # mantém referência
+        label_fundo.image = img_tk 
 
     tela.bind("<Configure>", redimensionar)
     return label_fundo
@@ -166,7 +166,7 @@ def tela_professor_1(logado_profe):
 
 
 def tela_atividade_prof(tela_ant, logado_profe):
-    tela_ant.destroy()  # destrói a tela anterior
+    tela_ant.destroy()  
     tela = ctk.CTk()
     tela.geometry("600x500")
     tela.title("Nova Atividade")
@@ -182,11 +182,11 @@ def tela_atividade_prof(tela_ant, logado_profe):
     def salvar_atividade():
         texto = chat.get("1.0", "end").strip()
         if texto:
-            # atualiza no servidor via método Professor.atividade (que chama enviar_servidor)
+  
             professor.atividade(logado_profe["professor_nome"], texto)
-            tela.destroy()  # destrói a tela de atividade antes de abrir a próxima
+            tela.destroy()  
             messagebox.showinfo("Sucesso", "Atividade cadastrada!")
-            tela_professor_1(logado_profe)  # abre a tela do professor
+            tela_professor_1(logado_profe)  
         else:
             messagebox.showwarning("Erro", "O campo não pode estar vazio.")
 
@@ -216,7 +216,7 @@ def tela_corrigir(tela_ant, prof_logado):
         font=("Arial", 18, "bold")
     ).pack(pady=12)
 
-    # pegar alunos do servidor
+
     alunos = receber_servidor("get_aluno") or []
 
     if not alunos:
@@ -255,14 +255,14 @@ def tela_corrigir(tela_ant, prof_logado):
             ctk.CTkLabel(bloco, text=f"Resposta:\n{item['resposta']}", wraplength=740, justify="left",
                          text_color="#bfbfbf").pack(anchor="w", padx=12, pady=(6, 4))
 
-            # Entrada da nota
+      
             linha_nota = ctk.CTkFrame(bloco)
             linha_nota.pack(anchor="w", padx=12, pady=6)
             ctk.CTkLabel(linha_nota, text="Nota (0-10):", font=("Arial", 11)).pack(side="left", padx=(0, 6))
             entrada_nota = ctk.CTkEntry(linha_nota, placeholder_text="ex: 8.5", width=120)
             entrada_nota.pack(side="left")
 
-            # Entrada da mensagem opcional
+        
             ctk.CTkLabel(bloco, text="Mensagem para o aluno (opcional):", font=("Arial", 11)).pack(anchor="w", padx=12, pady=(6, 2))
             entrada_msg = ctk.CTkEntry(bloco, placeholder_text="Digite uma mensagem ou deixe vazio para automática", width=600)
             entrada_msg.pack(anchor="w", padx=12, pady=(0, 6))
@@ -280,7 +280,7 @@ def tela_corrigir(tela_ant, prof_logado):
             messagebox.showinfo("Aviso", "Não há respostas para corrigir.")
             return
 
-        # Recarregar alunos do servidor para garantir atualização
+
         alunos = receber_servidor("get_aluno") or []
 
         alterou = False
@@ -297,12 +297,12 @@ def tela_corrigir(tela_ant, prof_logado):
                 messagebox.showwarning("Erro", f"Nota inválida para {item['aluno']}. Use número entre 0 e 10.")
                 return
 
-            # Mensagem: se o professor digitou, usa; senão automática
+      
             msg = item["mensagem"].get().strip()
             if not msg:
                 msg = obter_mensagem_por_nota(nota_val)
 
-            # Atualiza aluno localmente (na lista 'alunos')
+
             for a in alunos:
                 if a.get("nome") == item["aluno"]:
                     a.setdefault("notas", [])
@@ -322,7 +322,7 @@ def tela_corrigir(tela_ant, prof_logado):
                     break
 
         if alterou:
-            # envia lista inteira de alunos para o servidor salvar
+      
             enviar_servidor("aluno", alunos)
             messagebox.showinfo("Sucesso", "Notas e mensagens salvas com sucesso!")
             tela.destroy()
@@ -372,14 +372,14 @@ def tela_atribuir_nota(tela_ant, logado_profe):
         for a in alunos:
             if a.get("nome") == nome_a:
                 encontrado = True
-                # adiciona notas/atualiza respostas
+               
                 a.setdefault("notas", [])
                 updated = False
                 for r in a.get("respostas", []):
                     if r.get("atividade") == atividade_t and r.get("professor") == prof_name:
                         r["nota"] = nota_num
                         r["corrigida"] = True
-                        # gerar mensagem automática
+                    
                         r["mensagem"] = obter_mensagem_por_nota(nota_num)
                         a["notas"].append({
                             "professor": prof_name,
@@ -390,7 +390,7 @@ def tela_atribuir_nota(tela_ant, logado_profe):
                         updated = True
                         break
                 if not updated:
-                    # se aluno não tiver respondido essa atividade, adiciona a nota diretamente
+                
                     a["respostas"] = a.get("respostas", [])
                     a["respostas"].append({
                         "professor": prof_name,
@@ -409,7 +409,7 @@ def tela_atribuir_nota(tela_ant, logado_profe):
                 break
         if not encontrado:
             return 1
-        # envia para servidor
+  
         enviar_servidor("aluno", alunos)
         return 2
 
@@ -573,7 +573,7 @@ def tela_aluno_principal(logado_aluno):
     ctk.CTkLabel(tela, text=f"Bem-vindo(a), {logado_aluno['nome']}", font=("Arial", 16)).pack(pady=20)
     criar_fundo_responsivo(tela, "img.png")
 
-    # Botão para fazer atividade
+
     btn_atividade = ctk.CTkButton(
         tela,
         text="Fazer Atividade",
@@ -581,7 +581,6 @@ def tela_aluno_principal(logado_aluno):
     )
     btn_atividade.pack(pady=20)
 
-    # Botão para ver média
     btn_media = ctk.CTkButton(
         tela,
         text="Ver Média das Notas",
@@ -595,7 +594,7 @@ def tela_aluno_principal(logado_aluno):
         command=lambda: [tela.destroy(), tela_aluno_ver_notas_atividades(logado_aluno)]
     )
     btn_ver_notas.pack(pady=20)
-    # Botão voltar para index
+ 
     btn_voltar = ctk.CTkButton(
         tela,
         text="Voltar",
@@ -623,7 +622,7 @@ def tela_media_notas(logado_aluno):
         for prof, media in medias.items():
             ctk.CTkLabel(tela, text=f"{prof}: {media:.2f}", font=("Arial", 14)).pack(pady=5)
 
-            # adiciona mensagem personalizada
+
             mensagem = obter_mensagem_por_nota(media)
             ctk.CTkLabel(
                 tela,
@@ -653,7 +652,7 @@ def tela_aluno_ver_notas_atividades(logado_aluno):
 
     ctk.CTkLabel(tela, text=f"Notas de {logado_aluno['nome']}", font=("Arial", 16)).pack(pady=15)
 
-    # Carregar alunos do servidor
+
     alunos = receber_servidor("get_aluno") or []
 
     notas = []
@@ -702,7 +701,7 @@ def tela_aluno_1(logado_aluno):
     frame_scroll = ctk.CTkScrollableFrame(tela, width=650, height=380)
     frame_scroll.pack(pady=10, padx=10, fill="both", expand=True)
 
-    # Pega apenas atividades que o aluno ainda não respondeu (usa Aluno.ver_atividades que foi adaptada para servidor)
+
     atividades = aluno.ver_atividades(logado_aluno["nome"])
 
     if not atividades:
@@ -745,7 +744,6 @@ def tela_ver_notas(tela_ant, logado_aluno):
 
     ctk.CTkLabel(tela, text=f"Notas de {logado_aluno['nome']}", font=("Arial", 16)).pack(pady=15)
 
-    # Carregar alunos do servidor
     alunos = receber_servidor("get_aluno") or []
 
     notas = []
