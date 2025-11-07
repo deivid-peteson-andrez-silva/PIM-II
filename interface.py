@@ -516,7 +516,7 @@ def tela_aluno_cadastro(tela_ant):
     btn_cadastrar = ctk.CTkButton(tela_aluno_ca, text="Cadastrar", command=aluno_cadastro)
     btn_cadastrar.pack(pady=15)
 
-    tela_index = ctk.CTkButton(tela_aluno_ca, text="voutar", command=lambda: index(tela_aluno_ca))
+    tela_index = ctk.CTkButton(tela_aluno_ca, text="voltar", command=lambda: index(tela_aluno_ca))
     tela_index.pack(pady=15)
 
     tela_aluno_ca.mainloop()
@@ -878,7 +878,7 @@ def index(tela_ant=None):
             tela_ant.destroy()
         except:
             pass
-
+ 
     index = ctk.CTk()
     index.geometry('500x500')
 
@@ -887,10 +887,10 @@ def index(tela_ant=None):
     txt.pack(padx=10, pady=45)
     btn_professor = ctk.CTkButton(index, text="professor", command=lambda: tela_logar_professor(index))
     btn_professor.pack(pady=30)
-    btn_adm = ctk.CTkButton(index, text="administração", command=lambda: tela_adm(index))
-    btn_adm.pack(pady=30)
     btn_aluno = ctk.CTkButton(index, text='aluno', command=lambda: tela_logar_aluno(index))
     btn_aluno.pack(pady=30)
+    btn_adm = ctk.CTkButton(index, text="administração", command=lambda: tela_adm(index))
+    btn_adm.pack(pady=30)
     index.mainloop()
 
 

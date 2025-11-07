@@ -3,7 +3,7 @@ import json
 import os
 import socket
 
-SERVER_IP = "             "  # ajuste conforme o IP da máquina do servidor
+SERVER_IP = "192.168.1.206"  # ajuste conforme o IP da máquina do servidor
 SERVER_PORT = 5000
 
 
@@ -208,12 +208,7 @@ class Aluno:
 
 class Adm:
     def __init__(self):
-        self.adm_dados = receber_servidor("get_adm") or {
-            "login_adm": "adm123",
-            "senha_adm": "adm123",
-            "cpf_professor": [],
-            "curso_diciplina": []
-        }
+        self.adm_dados = receber_servidor("get_adm") 
 
     def cadastrar_professor_cpf(self, nome, cpf, coordenador=False):
         novo_profe = {

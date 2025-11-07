@@ -1,0 +1,28 @@
+{
+    "login_adm": "adm123",
+    "senha_adm": "adm123",
+    "cpf_professor": [
+        {
+            "nome": "deivid",
+            "cpf": "123",
+            "coordenador": true
+        },
+        {
+            "nome": "peterson",
+            "cpf": "111",
+            "coordenador": true
+        }
+    ],
+    "curso_diciplina": [
+        {
+            "nome_curso": "curso",
+            "professor_coordenador": "deivid",
+            "curso_carga_hora": "123"
+        },
+        {
+            "nome_curso": "cruso2",
+            "professor_coordenador": "peterson",
+            "curso_carga_hora": "123123"
+        }
+    ]
+}
