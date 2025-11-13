@@ -1,1 +1,12 @@
-[]
+[
+    {
+        "professor_nome": "deivid",
+        "professor_cpf": "123",
+        "professor_contato": "123",
+        "professor_diciplina": "curso",
+        "professor_senha": "123",
+        "atividades": [
+            "O que é um compasso em uma partitura musical?"
+        ]
+    }
+]

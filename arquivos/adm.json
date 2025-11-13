@@ -17,7 +17,13 @@
         {
             "nome_curso": "curso",
             "professor_coordenador": "deivid",
-            "curso_carga_hora": "123"
+            "curso_carga_hora": "123",
+            "atividades": [
+                {
+                    "professor": "deivid",
+                    "texto": "O que é um compasso em uma partitura musical?"
+                }
+            ]
         },
         {
             "nome_curso": "cruso2",

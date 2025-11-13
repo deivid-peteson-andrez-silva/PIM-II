@@ -3,7 +3,7 @@ import json
 import os
 import socket
 
-SERVER_IP = "192.168.1.206"  # ajuste conforme o IP da máquina do servidor
+SERVER_IP = "192.168.1.201"  # ajuste conforme o IP da máquina do servidor
 SERVER_PORT = 5000
 
 

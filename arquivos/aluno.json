@@ -1,1 +1,56 @@
-[]
+[
+    {
+        "nome": "peterson",
+        "cpf": "123",
+        "data_nascimento": "123",
+        "endereco": "123",
+        "telefone": "123",
+        "curso": "curso",
+        "senha": "123",
+        "respostas": [
+            {
+                "professor": "deivid",
+                "atividade": "O que é um compasso em uma partitura musical?",
+                "resposta": "É a divisão do tempo musical em partes iguais, ajudando a organizar o ritmo da música.",
+                "nota": 10.0,
+                "corrigida": true,
+                "mensagem": "Parabéns, excelência total!"
+            }
+        ],
+        "notas": [
+            {
+                "professor": "deivid",
+                "atividade": "O que é um compasso em uma partitura musical?",
+                "nota": 10.0,
+                "mensagem": "Parabéns, excelência total!"
+            }
+        ]
+    },
+    {
+        "nome": "andrez",
+        "cpf": "111",
+        "data_nascimento": "111",
+        "endereco": "111",
+        "telefone": "111",
+        "curso": "curso",
+        "senha": "111",
+        "respostas": [
+            {
+                "professor": "deivid",
+                "atividade": "O que é um compasso em uma partitura musical?",
+                "resposta": "É o símbolo que indica a altura das notas musicais",
+                "nota": 3.0,
+                "corrigida": true,
+                "mensagem": "Foco, paciência e persistência — você chega lá."
+            }
+        ],
+        "notas": [
+            {
+                "professor": "deivid",
+                "atividade": "O que é um compasso em uma partitura musical?",
+                "nota": 3.0,
+                "mensagem": "Foco, paciência e persistência — você chega lá."
+            }
+        ]
+    }
+]
